@@ -1,19 +1,19 @@
 # @design-atlas/css
 
-Self-contained CSS bundle for the Design Atlas design system (tokens, theme, reset, base typography, and utility classes).
+Self-contained CSS bundle for the Design Atlas design system (variables/tokens, theme, utility classes, and reset).
 
 ## Usage
 
 ```css
-/* Full bundle (tokens + theme + reset + base + utilities) */
-@import '@design-atlas/css';
+/* Style bundle (_variables + theme + utilities) */
+@import '@design-atlas/css/atl-style.css';
+
+/* Reset */
+@import '@design-atlas/css/atl-reset.css';
 ```
 
-Or import individual layers:
+The package main entry (`@design-atlas/css`) points to `atl-style.css`:
 
 ```css
-@import '@design-atlas/css/tokens.css';
-@import '@design-atlas/css/reset.css';
-@import '@design-atlas/css/base.css';
-@import '@design-atlas/css/utilities.css';
+@import '@design-atlas/css';
 ```

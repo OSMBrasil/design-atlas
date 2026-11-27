@@ -3,17 +3,15 @@
   "version": "0.1.0",
   "description": "CSS tokens, reset, base typography, and utility classes for Design Atlas design system",
   "type": "module",
-  "main": "./dist/index.css",
-  "style": "./dist/index.css",
+  "main": "./dist/atl-style.css",
+  "style": "./dist/atl-style.css",
   "sideEffects": [
     "*.css"
   ],
   "exports": {
-    ".": "./dist/index.css",
-    "./tokens.css": "./dist/tokens.css",
-    "./reset.css": "./dist/reset.css",
-    "./base.css": "./dist/base.css",
-    "./utilities.css": "./dist/utilities.css"
+    ".": "./dist/atl-style.css",
+    "./atl-style.css": "./dist/atl-style.css",
+    "./atl-reset.css": "./dist/atl-reset.css"
   },
   "files": [
     "dist",

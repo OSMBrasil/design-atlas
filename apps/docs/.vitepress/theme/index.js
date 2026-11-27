@@ -1,6 +1,6 @@
 
 import DefaultTheme from 'vitepress/theme'
-import '@design-atlas/css/tokens.css'
+import '@design-atlas/css/atl-style.css'
 import './custom.css' // Arquivo onde você colocará seus estilos personalizados
 
 export default {
