@@ -115,7 +115,7 @@
         outline-offset: 1px;
     }
 
-    .menu a:focus .item {
+    .menu a.item:focus {
         border: 2px solid var(--border-color-focus);
     }
 
