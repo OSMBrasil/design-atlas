@@ -1,0 +1,54 @@
+{
+  "name": "@design-atlas/css",
+  "version": "0.1.0",
+  "description": "CSS tokens, reset, base typography, and utility classes for Design Atlas design system",
+  "type": "module",
+  "main": "./dist/index.css",
+  "style": "./dist/index.css",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": "./dist/index.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./reset.css": "./dist/reset.css",
+    "./base.css": "./dist/base.css",
+    "./utilities.css": "./dist/utilities.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "node build.js",
+    "clean": "rimraf dist",
+    "prepack": "pnpm build"
+  },
+  "dependencies": {
+    "@design-atlas/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.0"
+  },
+  "keywords": [
+    "css",
+    "design-system",
+    "design-tokens",
+    "styles",
+    "ui"
+  ],
+  "author": "Design Atlas Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OSMBrasil/design-atlas.git",
+    "directory": "packages/css"
+  }
+}

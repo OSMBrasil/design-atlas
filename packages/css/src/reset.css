@@ -1,0 +1,31 @@
+/* Reset */
+
+* {
+  margin: 0;
+}
+
+/*
+ * Suggested additions (commented out — awaiting approval before enabling):
+ *
+ * *,
+ * *::before,
+ * *::after {
+ *   box-sizing: border-box;
+ * }
+ *
+ * img,
+ * picture,
+ * video,
+ * canvas,
+ * svg {
+ *   display: block;
+ *   max-width: 100%;
+ * }
+ *
+ * input,
+ * button,
+ * textarea,
+ * select {
+ *   font: inherit;
+ * }
+ */
