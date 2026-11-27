@@ -46,7 +46,7 @@
     
     .tabs {
         width: fit-content;
-        font-size: var(--font-size-14);
+        font-size: var(--font-size-16);
         font-weight: 600;
         display: flex;
         flex-direction: row;

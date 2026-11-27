@@ -52,7 +52,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    font-family: var(--font-family-base);
+    font-family: var(--font-family-sans-serif);
 }
 
 .radio-group {

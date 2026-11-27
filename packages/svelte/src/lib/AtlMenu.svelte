@@ -94,7 +94,7 @@
     }
 
     .item:focus {
-        background-color: var(--bgn-color-accent);
+        background-color: var(--bgn-accent);
     }
 
     .item:hover {

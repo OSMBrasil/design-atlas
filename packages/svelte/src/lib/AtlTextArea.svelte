@@ -110,7 +110,7 @@ textarea {
     border-radius: var(--border-radius-4);
     background-color: transparent;
     font-size: var(--font-size-16);
-    font: var(--font-family-base);
+    font-family: var(--font-family-sans-serif);
     line-height: var(--line-height-label);
     padding: 10px 12px;
     transition: border-color 0.2s;

@@ -25,14 +25,14 @@
     }
 
     .button-group > *:first-child {
-        border-top-left-radius: var(--group-border-radius) !important;
-        border-bottom-left-radius: var(--group-border-radius) !important;
+        border-top-left-radius: var(--border-radius-4) !important;
+        border-bottom-left-radius: var(--border-radius-4) !important;
         margin-left: 0; 
     }
 
     .button-group > *:last-child {
-        border-top-right-radius: var(--group-border-radius) !important;
-        border-bottom-right-radius: var(--group-border-radius) !important;
+        border-top-right-radius: var(--border-radius-4) !important;
+        border-bottom-right-radius: var(--border-radius-4) !important;
     }
 
     .button-group > *:hover {

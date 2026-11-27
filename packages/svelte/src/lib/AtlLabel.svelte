@@ -57,7 +57,7 @@
 		flex-direction: column;
 		gap: 4px;
 		width: fit-content;
-		color: var(--color-text);
+		color: var(--color-emphasized);
 	}
 
 	.atl-label.disabled {
@@ -67,8 +67,8 @@
 
 	label,
 	legend {
-		font-weight: var(--font-weight-medium);
-		font-size: var(--font-size-14);
+		font-weight: var(--font-weight-semibold);
+		font-size: var(--font-size-16);
 		display: flex;
 		align-items: center;
 		gap: 4px;

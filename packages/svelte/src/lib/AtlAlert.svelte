@@ -143,7 +143,7 @@
 	.atl-alert-title {
 		height: 22;
 		font-weight: bold;
-		font-size: var(--typography-font-size-16);
+		font-size: var(--font-size-16);
 		line-height: 140%;
 		letter-spacing: 0%;
 
@@ -158,13 +158,13 @@
 		border: none;
 		font-size: 24px;
 		cursor: pointer;
-		color: var(--color-typo-secondary);
+		color: var(--color-subtle);
 	}
 
 	.atl-alert-children-content {
-		font-family: var(--typography-font-family-sans-serif);
-		font-weight: var(--typography-font-weight-regular);
-		font-size: var(--typography-font-size-16);
+		font-family: var(--font-family-sans-serif);
+		font-weight: var(--font-weight-regular);
+		font-size: var(--font-size-16);
 		line-height: 125%;
 		letter-spacing: 0%;
 		vertical-align: middle;

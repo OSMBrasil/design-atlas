@@ -100,15 +100,15 @@
 
 		&:disabled,
 		&.disabled {
-			background-color: var(--bgn-disabled);
-			color: var(--color-disabled);
+			background-color: var(--bgn-disable);
+			color: var(--color-disable);
 			cursor: not-allowed;
 			pointer-events: none;
 
 			&:hover,
 			&:active {
-				background-color: var(--bgn-disabled);
-				color: var(--color-disabled);
+				background-color: var(--bgn-disable);
+				color: var(--color-disable);
 			}
 		}
 	}
