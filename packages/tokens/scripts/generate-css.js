@@ -1,38 +1,19 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { dirname } from 'path';
 
 // Ensure dist directory exists
 const distDir = './dist';
 mkdirSync(distDir, { recursive: true });
 
-// Copy tokens.json to dist
+// Copy tokens.json to dist (unchanged)
 const tokensJson = readFileSync('./tokens.json', 'utf8');
 writeFileSync('./dist/tokens.json', tokensJson);
 
-// Generate CSS custom properties
-const tokens = JSON.parse(tokensJson);
-let css = ':root {\n';
+// Build dist/tokens.css from working primitive + semantic theme CSS
+const variablesCss = readFileSync('./src/variables.css', 'utf8');
+const themeCss = readFileSync('./src/theme.css', 'utf8');
 
-function generateCSSVariables(obj, prefix = '') {
-  for (const [key, value] of Object.entries(obj)) {
-    const fullKey = prefix ? `${prefix}-${key}` : key;
-    
-    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-      // Check if it's a token with $value
-      if (value.$value !== undefined) {
-        const cssKey = fullKey.replace(/([A-Z])/g, '-$1').toLowerCase();
-        css += `  --${cssKey}: ${value.$value};\n`;
-      } else {
-        generateCSSVariables(value, fullKey);
-      }
-    }
-  }
-}
-
-generateCSSVariables(tokens);
-css += '}\n';
-
-writeFileSync('./dist/tokens.css', css);
+const combinedCss = `${variablesCss.trimEnd()}\n\n${themeCss.trimStart()}`;
+writeFileSync('./dist/tokens.css', combinedCss);
 
 console.log('✅ Tokens package built successfully!');
 console.log('📁 Generated files in ./dist/');
