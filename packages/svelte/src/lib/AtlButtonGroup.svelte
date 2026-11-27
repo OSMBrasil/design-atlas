@@ -5,7 +5,7 @@
 </script>
 
 <div class="button-group">
-    {@render children?.()} 
+    <span class="group-content">{@render children?.()}</span>
 </div>
 
 <style>
@@ -18,22 +18,22 @@
         margin: 4px 0;
     }
 
-    .button-group > * {
+    .button-group :global(> *) {
         border-radius: 0 !important; 
     }
 
-    .button-group > *:first-child {
+    .button-group :global(> *:first-child) {
         border-top-left-radius: var(--border-radius-4) !important;
         border-bottom-left-radius: var(--border-radius-4) !important;
         margin-left: 0; 
     }
 
-    .button-group > *:last-child {
+    .button-group :global(> *:last-child) {
         border-top-right-radius: var(--border-radius-4) !important;
         border-bottom-right-radius: var(--border-radius-4) !important;
     }
 
-    .button-group > *:hover {
+    .button-group :global(> *:hover) {
         position: relative;
         z-index: 1; 
     }
