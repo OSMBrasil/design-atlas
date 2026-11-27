@@ -549,8 +549,6 @@ For documentation on how all colors are applied, visit [Theme](../style-guide/th
 </div>
 
 <style>
-    @import url(_variables.css);
-
         .color-card {
         width: 100%;
         height: auto;

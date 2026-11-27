@@ -51,9 +51,6 @@ Color tokens applied to borders on form items and buttons
 
 
 <style>
-
-
-    @import url(_variables.css);
         .example {
             width: 3rem;
             height: 3rem;

@@ -1,4 +1,5 @@
 <script>
+	import '@design-atlas/css';
 	import {
 		AtlButton,
 		AtlCheckbox,

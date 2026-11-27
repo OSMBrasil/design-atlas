@@ -9,6 +9,7 @@
     "serve": "vitepress serve ."
   },
   "dependencies": {
+    "@design-atlas/css": "workspace:*",
     "vitepress": "^1.6.3"
   }
 }

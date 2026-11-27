@@ -17,7 +17,6 @@
 | <div class="example-cursor" style="cursor:var(--cursor-copy)"><p>mouse here</p></div>         | `cursor-copy`         | copy |
 
 <style>
-    @import url(_variables.css);
         .example-cursor {
             display: flex;
             background-color: var(--bgn-base);

@@ -24,8 +24,6 @@ The "light source" for these shadows is oriented between the top and center of t
 
 
 <style>
-
-    @import url(_variables.css);
         .example {
             width: 3rem;
             height: 3rem;

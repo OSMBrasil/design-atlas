@@ -61,7 +61,3 @@
 | <p style="text-transform: var(--text-case-upper);"> The quick brown fox jumps over the lazy dog.</p>  | `text-case-upper`  | uppercase |
 | <p style="text-transform: var(--text-case-cap);"> The quick brown fox jumps over the lazy dog.</p>  | `text-case-cap`  | capitalize |
 | <p style="text-transform: var(--text-case-lower);"> The quick brown fox jumps over the lazy dog.</p>  | `text-case-lower`  | lowercase |
-
-<style>
- @import url(_variables.css);
-</style>

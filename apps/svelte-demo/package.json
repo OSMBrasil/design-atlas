@@ -10,6 +10,7 @@
     "prepare": "svelte-kit sync || echo ''"
   },
   "dependencies": {
+    "@design-atlas/css": "workspace:*",
     "@design-atlas/svelte": "workspace:*",
     "@design-atlas/tokens": "workspace:*"
   },

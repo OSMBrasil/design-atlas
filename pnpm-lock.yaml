@@ -29,12 +29,18 @@ importers:
 
   apps/docs:
     dependencies:
+      '@design-atlas/css':
+        specifier: workspace:*
+        version: link:../../packages/css
       vitepress:
         specifier: ^1.6.3
         version: 1.6.4(@algolia/client-search@5.35.0)(@types/react@18.3.23)(lightningcss@1.30.1)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.9.2)
 
   apps/svelte-demo:
     dependencies:
+      '@design-atlas/css':
+        specifier: workspace:*
+        version: link:../../packages/css
       '@design-atlas/svelte':
         specifier: workspace:*
         version: link:../../packages/svelte

@@ -84,8 +84,6 @@ Color tokens applied to borders on form items and buttons
 | <div class="example border" style="border-color: var(--border-color-error);"></div>      | `border-color-error`      | ``  |
 
 <style>
-
-    @import url(_variables.css);
         .example {
             width: 3rem;
             height: 3rem;
