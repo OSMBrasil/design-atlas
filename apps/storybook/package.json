@@ -1,0 +1,32 @@
+{
+  "name": "@design-atlas/storybook",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Storybook (com addon-a11y em modo informativo) para os pacotes React e Svelte do Design Atlas",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build -o storybook-static",
+    "preview": "npx http-server storybook-static -p 6006"
+  },
+  "devDependencies": {
+    "@design-atlas/css": "workspace:*",
+    "@design-atlas/react": "workspace:*",
+    "@design-atlas/svelte": "workspace:*",
+    "@design-atlas/tokens": "workspace:*",
+    "@storybook/addon-a11y": "10.6.9",
+    "@storybook/react": "10.6.9",
+    "@storybook/react-vite": "10.6.9",
+    "@storybook/svelte": "10.6.9",
+    "@storybook/svelte-vite": "10.6.9",
+    "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "storybook": "10.6.9",
+    "svelte": "^5.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
+  }
+}
