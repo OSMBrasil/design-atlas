@@ -42,8 +42,6 @@
 </div>
 
 <style>
-    @import url(../../style/global.css);
-    
     .tabs {
         width: fit-content;
         font-size: var(--font-size-16);

@@ -16,8 +16,6 @@
 </button>
 
 <style>
-	@import url(../../style/global.css);
-
 	.atl-button {
 		display: inline-flex;
 		align-content: center;

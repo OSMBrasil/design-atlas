@@ -63,8 +63,6 @@
 </div>
 
 <style>
-    @import url(../../style/global.css);
-    
     .accordion {
         position: relative;
         width: 684px;

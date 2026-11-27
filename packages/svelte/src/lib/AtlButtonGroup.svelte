@@ -9,8 +9,6 @@
 </div>
 
 <style>
-    @import url(../../style/global.css);
-
     .button-group {
         display: inline-flex;
         line-height: 0; 

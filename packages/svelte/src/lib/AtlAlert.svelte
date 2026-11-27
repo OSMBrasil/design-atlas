@@ -53,7 +53,6 @@
 {/if}
 
 <style>
-	@import url(../../style/global.css);
 	.atl-alert {
 		position: relative;
 		display: flex;

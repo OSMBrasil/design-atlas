@@ -77,8 +77,6 @@
 </div>
 
 <style>
-    @import url(../../../../style/global.css);
-    
     .menu {
         width: fit-content;
         min-width: 144px;

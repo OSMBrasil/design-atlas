@@ -33,8 +33,6 @@
 {/if}
 
 <style>
-    @import url(../../style/global.css);
-    
     .wrapper {
         position: relative;
     }

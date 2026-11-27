@@ -113,9 +113,6 @@
 </div>
 
 <style>
-
-	@import url(../../style/global.css);
-
 	.unstyled-button {
 		all: unset;
 		cursor: pointer;

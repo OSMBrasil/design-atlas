@@ -51,7 +51,6 @@
 {/if}
 
 <style>
-	@import url(../../style/global.css);
 	.atl-label {
 		display: flex;
 		flex-direction: column;
