@@ -1,0 +1,56 @@
+{
+  "name": "@design-atlas/ms-icons",
+  "version": "0.1.0",
+  "description": "Self-contained Material Symbols (Rounded, weight 400, opsz 24) SVG icon package for Design Atlas",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./sprite.svg": "./dist/sprite.svg",
+    "./svg/*": "./dist/svg/*"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "LICENSE-ICONS"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "sync": "node scripts/sync.mjs",
+    "check": "node scripts/sync.mjs --check",
+    "build": "node scripts/build.mjs",
+    "clean": "rimraf dist",
+    "prepack": "pnpm build"
+  },
+  "devDependencies": {
+    "@material-symbols/svg-400": "0.49.0",
+    "rimraf": "^5.0.0"
+  },
+  "keywords": [
+    "icons",
+    "svg",
+    "material-symbols",
+    "design-system",
+    "openstreetmap"
+  ],
+  "author": "Design Atlas Team",
+  "license": "MIT AND Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OSMBrasil/design-atlas.git",
+    "directory": "packages/ms-icons"
+  }
+}
