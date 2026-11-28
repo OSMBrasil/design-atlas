@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/svelte-vite";
+import { expect } from "storybook/test";
 import Component from "@atlas/AtlAccordion.svelte";
 
 const meta = {
@@ -34,7 +35,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole("button", { name: /heading accordion/i });
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  },
+};
 
 export const WithRichContent: Story = {
   args: {

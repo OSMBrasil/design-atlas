@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/svelte-vite";
+import { expect } from "storybook/test";
 import { map, notifications, settings, layers } from "@design-atlas/ms-icons";
 import Component from "@atlas/AtlMenu.svelte";
 
@@ -34,7 +35,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const menu = canvas.getByRole("menu");
+    await expect(menu).toBeVisible();
+    const mapItem = canvas.getByRole("menuitem", { name: /map/i });
+    const notificationsItem = canvas.getByRole("menuitem", { name: /notifications/i });
+    mapItem.focus();
+    await expect(mapItem).toHaveFocus();
+    await userEvent.keyboard("{ArrowDown}");
+    await expect(notificationsItem).toHaveFocus();
+  },
+};
 
 export const WithIconsAndBadgeCap: Story = {
   args: {

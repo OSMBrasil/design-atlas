@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/svelte-vite";
+import { expect } from "storybook/test";
 import Component from "../wrappers/TooltipWrapper.svelte";
 
 const meta = {
@@ -35,7 +36,17 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByText(/hover me/i);
+    await userEvent.hover(trigger);
+    const tooltip = await canvas.findByRole("tooltip");
+    await expect(tooltip).toBeVisible();
+    await expect(tooltip).toHaveTextContent("Tooltip text");
+    await userEvent.keyboard("{Escape}");
+    await expect(canvas.queryByRole("tooltip")).toBeNull();
+  },
+};
 export const Top: Story = { args: { direction: "top" } };
 export const Right: Story = { args: { direction: "right" } };
 export const Left: Story = { args: { direction: "left" } };

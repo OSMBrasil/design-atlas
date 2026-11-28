@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/svelte-vite";
+import { expect } from "storybook/test";
 import Component from "../wrappers/AlertWrapper.svelte";
 
 const meta = {
@@ -39,6 +40,15 @@ export const Success: Story = { args: { state: "success" } };
 export const Warning: Story = { args: { state: "warning" } };
 export const Error: Story = { args: { state: "error" } };
 export const Inline: Story = { args: { type: "inline", state: "error" } };
-export const Closable: Story = { args: { close: true } };
+export const Closable: Story = {
+  args: { close: true },
+  play: async ({ canvas, userEvent }) => {
+    const alert = canvas.getByRole("alert");
+    await expect(alert).toBeVisible();
+    const closeButton = canvas.getByRole("button", { name: /close/i });
+    await userEvent.click(closeButton);
+    await expect(canvas.queryByRole("alert")).toBeNull();
+  },
+};
 export const FadeIn: Story = { args: { fadeIn: true } };
 export const AutoDismiss: Story = { args: { autoDismiss: 4000, close: true } };

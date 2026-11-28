@@ -18,6 +18,7 @@
     "docs:serve": "pnpm --filter @design-atlas/docs serve",
     "icons:sync": "pnpm --filter @design-atlas/ms-icons sync",
     "icons:check": "pnpm --filter @design-atlas/ms-icons check",
+    "test:storybook": "pnpm --filter @design-atlas/storybook test",
     "pack:all": "pnpm -r build && mkdir -p dist-tarballs && pnpm --filter @design-atlas/css pack --pack-destination dist-tarballs && pnpm --filter @design-atlas/ms-icons pack --pack-destination dist-tarballs && pnpm --filter @design-atlas/react pack --pack-destination dist-tarballs && pnpm --filter @design-atlas/svelte pack --pack-destination dist-tarballs && pnpm --filter @design-atlas/tokens pack --pack-destination dist-tarballs",
     "smoke:css": "node scripts/smoke/css.mjs",
     "smoke:ms-icons": "node scripts/smoke/ms-icons.mjs",

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/svelte-vite";
+import { expect } from "storybook/test";
 import { tune, layers, refresh, visibilityOff } from "@design-atlas/ms-icons";
 import Component from "@atlas/AtlTabs.svelte";
 
@@ -34,7 +35,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const layersTab = canvas.getByRole("tab", { name: /layers/i });
+    const historyTab = canvas.getByRole("tab", { name: /history/i });
+    await userEvent.click(layersTab);
+    await expect(layersTab).toHaveAttribute("aria-selected", "true");
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(historyTab).toHaveFocus();
+  },
+};
 
 export const WithIcons: Story = {
   args: {

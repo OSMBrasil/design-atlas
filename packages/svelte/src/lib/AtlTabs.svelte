@@ -54,6 +54,9 @@
             event.preventDefault();
             return;
         }
+        if (items[index]?.href === '#') {
+            event.preventDefault();
+        }
         selectedIndex = index;
     }
 

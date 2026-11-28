@@ -6,7 +6,8 @@
   "description": "Storybook (Svelte) com addon-a11y em modo informativo",
   "scripts": {
     "dev": "storybook dev -p 6006 --no-open",
-    "build": "storybook build -o storybook-static"
+    "build": "storybook build -o storybook-static",
+    "test": "vitest run"
   },
   "dependencies": {
     "@design-atlas/css": "workspace:*",
@@ -15,11 +16,16 @@
   "devDependencies": {
     "@storybook/addon-a11y": "10.6.9",
     "@storybook/addon-docs": "10.6.9",
+    "@storybook/addon-vitest": "10.6.9",
     "@storybook/svelte-vite": "10.6.9",
     "@sveltejs/vite-plugin-svelte": "^5.1.1",
+    "@vitest/browser": "^4.1.12",
+    "@vitest/browser-playwright": "^4.1.12",
+    "playwright": "^1.65.1",
     "storybook": "10.6.9",
     "svelte": "^5.38.0",
     "typescript": "^5.9.2",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vitest": "^4.1.12"
   }
 }

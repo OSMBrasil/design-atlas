@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/svelte-vite";
+import { expect } from "storybook/test";
 import { publicIcon } from "@design-atlas/ms-icons";
 import Component from "@atlas/AtlSelect.svelte";
 
@@ -36,7 +37,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const combobox = canvas.getByRole("combobox");
+    await expect(combobox).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(combobox);
+    await expect(combobox).toHaveAttribute("aria-expanded", "true");
+    const option = canvas.getByRole("option", { name: /brazil/i });
+    await userEvent.click(option);
+    await expect(combobox).toHaveAttribute("aria-expanded", "false");
+    await expect(combobox).toHaveTextContent(/brazil/i);
+  },
+};
 export const Disabled: Story = { args: { disabled: true } };
 export const Required: Story = { args: { required: true } };
 export const WithIcon: Story = {

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/svelte-vite";
+import { expect } from "storybook/test";
 import Component from "@atlas/AtlToggleSwitch.svelte";
 
 const meta = {
@@ -26,7 +27,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const toggle = canvas.getByRole("switch");
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(toggle);
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
+    await userEvent.click(toggle);
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+  },
+};
 export const Off: Story = { args: { value: "off" } };
 export const Disabled: Story = { args: { disabled: true } };
 export const DisabledOff: Story = { args: { value: "off", disabled: true } };

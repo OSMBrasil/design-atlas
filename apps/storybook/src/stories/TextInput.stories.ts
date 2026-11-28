@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/svelte-vite";
+import { expect } from "storybook/test";
 import Component from "@atlas/AtlTextInput.svelte";
 
 const meta = {
@@ -31,6 +32,13 @@ export const Error: Story = { args: { status: "error" } };
 export const Success: Story = { args: { status: "success" } };
 export const Clearable: Story = {
   args: { clearable: true, value: "Sample text" },
+  play: async ({ canvas, userEvent }) => {
+    const input = canvas.getByRole("textbox");
+    await expect(input).toHaveValue("Sample text");
+    const clearButton = canvas.getByRole("button", { name: /clear/i });
+    await userEvent.click(clearButton);
+    await expect(input).toHaveValue("");
+  },
 };
 export const WithIcons: Story = {
   args: {
