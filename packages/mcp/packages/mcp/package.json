@@ -1,0 +1,46 @@
+{
+  "name": "@design-atlas/mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol (MCP) server for the Design Atlas design system (tokens, Svelte/React components, docs, and code auditing)",
+  "type": "module",
+  "main": "./src/server.js",
+  "bin": {
+    "atlas-mcp": "./bin/atlas-mcp.js"
+  },
+  "exports": {
+    ".": "./src/server.js",
+    "./indexer": "./src/indexer.js",
+    "./audit": "./src/audit.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node ./bin/atlas-mcp.js",
+    "start:http": "node ./bin/atlas-mcp.js --transport http --port 3846",
+    "test": "node ./test/mcp.test.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "design-system",
+    "design-atlas",
+    "openstreetmap",
+    "figma",
+    "react",
+    "svelte"
+  ],
+  "author": "Design Atlas Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OSMBrasil/design-atlas.git",
+    "directory": "packages/mcp"
+  }
+}

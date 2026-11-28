@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface ButtonProps {
+export interface AtlButtonProps {
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "outline";
   size?: "small" | "medium" | "large";
@@ -10,7 +10,7 @@ export interface ButtonProps {
   className?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const AtlButton: React.FC<AtlButtonProps> = ({
   children,
   variant = "primary",
   size = "medium",

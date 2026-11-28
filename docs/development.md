@@ -49,3 +49,12 @@ pnpm run smoke:all
 - `pnpm -r build` - build all packages
 - `pnpm run smoke:all` - run smoke tests
 - `pnpm changeset` - create changeset for release
+
+## Naming Convention
+
+All packages, components, styles, and documentation in Design Atlas follow a strict naming convention:
+
+1. **Framework Components (Svelte & React):** PascalCase with the `Atl` prefix — e.g., `AtlButton`, `AtlAlert`, `AtlTextInput`, `AtlContainer`.
+   - Props/interfaces follow the same prefix — e.g., `AtlButtonProps`.
+2. **CSS Classes:** kebab-case with the `.atl-` prefix — e.g., `.atl-button`, `.atl-alert`, `.atl-field`.
+3. **Web Components (Custom Elements, future/target):** kebab-case tag names with the `atl-` prefix — e.g., `<atl-button>`, `<atl-alert>`.

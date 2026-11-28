@@ -1,2 +1,2 @@
-export { Button } from "./Button";
-export type { ButtonProps } from "./Button";
+export { AtlButton } from "./Button";
+export type { AtlButtonProps } from "./Button";

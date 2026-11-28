@@ -5,8 +5,8 @@ import { fileURLToPath } from "node:url";
 const config: StorybookConfig = {
   framework: "@storybook/svelte-vite",
   addons: ["@storybook/addon-a11y", "@storybook/addon-docs"],
-  // Somente componentes Svelte. Stories ficam neste app e importam os
-  // componentes de packages/svelte/src/lib pelo alias "@atlas" (HMR sem build).
+  // Svelte components only. Stories live in this app and import
+  // components from packages/svelte/src/lib via the "@atlas" alias (HMR without build).
   stories: ["../src/**/*.stories.@(ts|js)"],
   viteFinal: async (viteConfig) => {
     viteConfig.plugins ??= [];

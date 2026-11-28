@@ -1,0 +1,14 @@
+# Design Atlas
+
+> Design system for OpenStreetMap (`OSMBrasil/design-atlas`).
+
+## Naming Convention
+
+- Framework components (Svelte & React): `Atl*` PascalCase (e.g. `AtlButton`, `AtlAlert`, `AtlTextInput`)
+- CSS classes: `.atl-*` kebab-case (e.g. `.atl-button`, `.atl-alert`, `.atl-field`)
+- Web Components (Custom Elements): `<atl-*>` kebab-case (e.g. `<atl-button>`, `<atl-alert>`)
+
+## Documentation
+
+- [Development & Naming Convention](docs/development.md#naming-convention)
+- [Using Atlas — Developing](apps/docs/using-atlas/developing.md#naming-convention)

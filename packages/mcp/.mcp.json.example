@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "design-atlas": {
+      "command": "node",
+      "args": ["./packages/mcp/bin/atlas-mcp.js"],
+      "env": {
+        "ATLAS_ROOT": "."
+      }
+    },
+    "design-atlas-http": {
+      "type": "streamable-http",
+      "url": "http://127.0.0.1:3846/mcp"
+    },
+    "figma-remote": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
+    },
+    "figma-desktop": {
+      "type": "http",
+      "url": "http://127.0.0.1:3845/mcp"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Design Atlas (OpenStreetMap)
+
+> Open-source design system for OpenStreetMap applications, providing design tokens, class-first CSS utilities, Svelte components, an upcoming React library, and an MCP server for AI-assisted UI development.
+
+## Core Packages
+- `@design-atlas/tokens` (`packages/tokens/tokens.json`): 340+ design tokens (colors with WCAG AA/AAA notes, typography, spacing, borders, opacity, dimensions) compiled to CSS custom properties.
+- `@design-atlas/css` (`packages/css/src/`): Reset, semantic theme variables, and ADR-03 class-first utility classes (`.color-base`, `.bgn-accent`, `.border-style-base`, `.regular`, `.semibold`).
+- `@design-atlas/svelte` (`packages/svelte/src/lib/`): 17 `Atl*` components (`AtlAccordion`, `AtlAlert`, `AtlButton`, `AtlButtonGroup`, `AtlCheckbox`, `AtlContainer`, `AtlField`, `AtlLabel`, `AtlLink`, `AtlMenu`, `AtlRadio`, `AtlSelect`, `AtlTabs`, `AtlTextArea`, `AtlTextInput`, `AtlToggleSwitch`, `AtlTooltip`).
+- `@design-atlas/react` (`packages/react/src/`): React package in transition; see `packages/react/ARCHITECTURE.md` for the Svelte-to-React parity and Figma Code Connect roadmap.
+- `@design-atlas/mcp` (`packages/mcp/`): Model Context Protocol server (`stdio` and Streamable HTTP) with `docs_search`, `code_search`, `tokens_search`, `code_audit`, and `components_inventory`.
+
+## AI Skills & Integrations
+- Skill entry point: `skills/atlas-builder/SKILL.md`
+- References: `accessibility.md`, `grid-system.md`, `css-nesting.md`, `implementation-guardrails.md`, `common-pitfalls.md`, `data-model.md`, `framework-rules.md`, `figma-make-integration.md`
+- MCP client configuration example: `.mcp.json.example` (pairs `design-atlas` with Figma Remote/Desktop MCP).
+
+## Documentation
+- Component usage & demos: `apps/docs/components/demos/`
+- Design tokens: `apps/docs/design-tokens/`
+- Style & accessibility guide: `apps/docs/style-guide/`
+- Architecture Decision Records: `apps/docs/using-atlas/adrs/`

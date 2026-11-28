@@ -1,0 +1,36 @@
+name: Zip Atlas AI Skills
+
+on:
+  push:
+    paths:
+      - 'skills/**'
+      - 'public/figma-make-kit/**'
+      - '.github/workflows/zip-atlas-skills.yml'
+  workflow_dispatch:
+
+jobs:
+  zip-atlas-skills:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create skill archives
+        run: |
+          mkdir -p dist
+          zip -r dist/atlas-skills.zip skills public/figma-make-kit
+
+      - name: Upload zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-skills.zip
+          path: dist/atlas-skills.zip
+
+      - name: Attach zip to GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/atlas-skills.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
