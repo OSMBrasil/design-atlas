@@ -1,5 +1,5 @@
 // Export all Svelte components
-export { default as AtlAccordion } from "./AtlAccordion.svelte";
+export { AtlAccordion, AtlAccordionItem } from "./Accordion/index.js";
 export { default as AtlAlert } from "./AtlAlert.svelte";
 export { default as AtlButton } from "./AtlButton.svelte";
 export { default as AtlButtonGroup } from "./AtlButtonGroup.svelte";

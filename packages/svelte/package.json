@@ -12,6 +12,10 @@
       "svelte": "./dist/index.js",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./Accordion": {
+      "svelte": "./dist/Accordion/index.js",
+      "import": "./dist/Accordion/index.js"
     }
   },
   "files": [

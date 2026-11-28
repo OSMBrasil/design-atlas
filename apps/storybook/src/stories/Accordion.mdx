@@ -1,0 +1,102 @@
+import { Meta, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import * as AccordionStories from "./Accordion.stories.svelte";
+
+<Meta of={AccordionStories} />
+
+# Accordion
+
+## Overview
+
+An **Accordion** is an expandable and collapsible list of sections used to organize blocks of content into compact groups. Compose `<AtlAccordion>` with one or more `<AtlAccordionItem>` subcomponents to place rich HTML or interactive Design Atlas components inside each panel.
+
+<Canvas of={AccordionStories.BasicUsage} />
+
+<Controls of={AccordionStories.BasicUsage} />
+
+## Examples
+
+### Single Mode
+
+Single-expansion mode (`type="single"`): opening one section automatically collapses any other expanded section.
+
+<Canvas of={AccordionStories.SingleMode} />
+
+### Single Item
+
+Accordion containing only a single expandable section (rendered without internal dividers).
+
+<Canvas of={AccordionStories.SingleItem} />
+
+### Align Start
+
+Places the chevron icon at the inline start of each heading (`align="start"`), adapting automatically in RTL layouts.
+
+<Canvas of={AccordionStories.AlignStart} />
+
+### No Outline
+
+Removes the outer border and corner radius (`outline={false}`) while keeping internal horizontal padding and section dividers.
+
+<Canvas of={AccordionStories.NoOutline} />
+
+### Disabled
+
+Disables all sections at once via the parent `disabled` prop without losing individual item states.
+
+<Canvas of={AccordionStories.Disabled} />
+
+### Disabled Item (Keyboard Skip)
+
+Individual items can be disabled via `disabled` on `<AtlAccordionItem>`. Keyboard roving focus (`ArrowDown` / `ArrowUp`) automatically skips disabled headings.
+
+<Canvas of={AccordionStories.DisabledItemKeyboardSkip} />
+
+### With Components
+
+Composing interactive Design Atlas components (`AtlCheckbox`, `AtlButton`, form inputs) directly inside `<AtlAccordionItem>` slots with full Svelte reactivity.
+
+<Canvas of={AccordionStories.WithComponents} />
+
+## Technical implementation
+
+### Events
+
+| Component | Event | Payload | Description |
+| --- | --- | --- | --- |
+| `AtlAccordionItem` | `toggle` | `CustomEvent<{ open: boolean }>` | Dispatched with the next open state after a heading click. |
+| `AtlAccordion` | `click`, `mouseover`, `mouseenter`, `mouseleave` | Native `MouseEvent` | Forwarded from the root `<ul>` container. |
+| `AtlAccordionItem` | `click`, `focus`, `blur`, `keydown`, `mouseover`, `mouseenter`, `mouseleave` | Native DOM event | Forwarded from the heading `<button>` element. |
+
+### Props
+
+| Component | Prop | Type | Default | Description |
+| --- | --- | --- | --- | --- |
+| `AtlAccordion` | `align` | `"start" \| "end"` | `"end"` | Placement of the chevron icon inside each heading. |
+| `AtlAccordion` | `outline` | `boolean` | `true` | Displays the outer border and rounded corners. Set to `false` to remove the outer border while preserving internal spacing. |
+| `AtlAccordion` | `type` | `"multiple" \| "single"` | `"multiple"` | `"multiple"` allows any number of items open at once; `"single"` closes other items when one opens. |
+| `AtlAccordion` | `disabled` | `boolean` | `false` | Disables all child `AtlAccordionItem` headings without overwriting each item's own `disabled` prop. |
+| `AtlAccordionItem` | `title` | `string \| undefined` | `undefined` | Heading text displayed inside the trigger button. |
+| `AtlAccordionItem` | `open` | `boolean` (bindable) | `false` | Controls whether the section is expanded (`bind:open`). |
+| `AtlAccordionItem` | `disabled` | `boolean` | `false` | Disables interaction for this individual section. |
+| `AtlAccordionItem` | `ariaLabel` | `string \| undefined` | `undefined` | Accessible label for the heading button when no visible title is provided. |
+| `AtlAccordionItem` | `ref` | `HTMLButtonElement \| null` (bindable) | `null` | Reference to the underlying heading `<button>` element. |
+| `AtlAccordionItem` | `id` | `string` | auto-generated | Identifier for the `<li>` element (derives `{id}-button` and `{id}-content`). |
+
+### Slots
+
+| Component | Slot | Description |
+| --- | --- | --- |
+| `AtlAccordion` | `default` | Composed `<AtlAccordionItem>` children. |
+| `AtlAccordionItem` | `title` | Custom heading markup inside the trigger button (falls back to the `title` prop). |
+| `AtlAccordionItem` | `default` | Panel content—accepts text, rich HTML, or any Svelte component. |
+
+## Keyboard Navigation
+
+| Key | Action |
+| --- | --- |
+| `Tab` / `Shift + Tab` | Moves focus into and out of the accordion and through focusable elements inside open panels. |
+| `Enter` / `Space` | Expands or collapses the focused accordion section. |
+| `ArrowDown` | Moves focus to the next enabled accordion heading (wraps to first). |
+| `ArrowUp` | Moves focus to the previous enabled accordion heading (wraps to last). |
+| `Home` | Moves focus to the first enabled accordion heading. |
+| `End` | Moves focus to the last enabled accordion heading. |
