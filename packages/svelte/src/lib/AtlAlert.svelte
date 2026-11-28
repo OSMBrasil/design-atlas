@@ -1,15 +1,20 @@
 <script>
 	import { onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import { getAtlLocale } from './i18n/messages.js';
+
+	const atlLocale = getAtlLocale();
 
 	export let type = 'box'; // 'box' | 'inline'
 	export let state = 'info'; // 'info' | 'warning' | 'error' | 'success'
 	export let close = false;
-	export let dismissButtonLabel = 'Close';
+	export let dismissButtonLabel = '';
 	export let title = true;
 	export let titleText = 'Title';
 	export let fadeIn = false;
 	export let autoDismiss = false; // boolean | number (ms)
+
+	$: resolvedDismissLabel = dismissButtonLabel || atlLocale.messages.alert.dismiss;
 
 	let visible = true;
 	let dismissTimer;
@@ -88,7 +93,7 @@
 			<button
 				type="button"
 				class="atl-alert-close color-subtle"
-				aria-label={dismissButtonLabel}
+				aria-label={resolvedDismissLabel}
 				on:click={handleClose}
 				use:innerHTML={icons.close}
 			></button>

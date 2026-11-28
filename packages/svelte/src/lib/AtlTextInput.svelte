@@ -1,13 +1,20 @@
 <script>
+	import { getAtlLocale } from './i18n/messages.js';
+
+	const atlLocale = getAtlLocale();
+
 	export let startIcon = '';
 	export let endIcon = '';
 	export let clearable = false;
+	export let clearButtonLabel = '';
 	export let inputType = 'text';
 	export let status = 'default'; // "default", "error", "success"
 	export let disabled = false;
 	export let readonly = false;
 	export let placeholder = 'Placeholder';
 	export let value = '';
+
+	$: resolvedClearLabel = clearButtonLabel || atlLocale.messages.textInput.clear;
 
 	/*Por enquanto os icones serao colocados aqui*/
 	const icons = {
@@ -53,7 +60,7 @@
 			: '12px'};"
 	/>
 	{#if clearable && value && !readonly && !disabled}
-		<button class="clear-button" type="button" on:click={clearInput} aria-label="Limpar campo">
+		<button class="clear-button" type="button" on:click={clearInput} aria-label={resolvedClearLabel}>
 			{@html closeIconMarkup}
 		</button>
 	{/if}

@@ -1,7 +1,15 @@
 <script lang="ts">
+    import { getAtlLocale } from './i18n/messages.js';
+
+    const atlLocale = getAtlLocale();
 
     export let size: 'sm' | 'md' | 'lg' | 'xl' = 'md';
     export let variant: 'default' | 'close' | 'sheet' = 'default';
+    export let closeLabel: string = '';
+    export let toggleSheetLabel: string = '';
+
+    $: resolvedCloseLabel = closeLabel || atlLocale.messages.container.close;
+    $: resolvedToggleSheetLabel = toggleSheetLabel || atlLocale.messages.container.toggleSheet;
     
     let isVisible = true;
     let isMinimized = false;
@@ -21,10 +29,10 @@
 {#if isVisible}
 <div class="wrapper {size} class:closed={!isVisible}">
     {#if variant === 'sheet'}
-        <button class="sheet" on:click={handleMinimize}>{@html sheet}</button>
+        <button type="button" class="sheet" aria-label={resolvedToggleSheetLabel} on:click={handleMinimize}>{@html sheet}</button>
     {/if}
     {#if variant === 'close'}
-            <button class="close" on:click={handleClose}>{@html close}</button>
+            <button type="button" class="close" aria-label={resolvedCloseLabel} on:click={handleClose}>{@html close}</button>
     {/if}
     <div class="container {size}" class:minimized={isMinimized}>
         <slot></slot>

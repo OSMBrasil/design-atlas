@@ -1,5 +1,8 @@
 <script>
     import AtlLabel from "./AtlLabel.svelte";
+    import { getAtlLocale } from "./i18n/messages.js";
+
+    const atlLocale = getAtlLocale();
 
     // Select variables
     export let options = [];
@@ -7,9 +10,11 @@
     export let index = -1;
     export let value;
     export let disabled = false;
-    export let placeholder = "Select an option";
+    export let placeholder = "";
     export let variant = "default";
     export let icon = null;
+
+    $: resolvedPlaceholder = placeholder || atlLocale.messages.select.placeholder;
 
     // Label variables
     export let id = '';
@@ -112,7 +117,7 @@ function handleClickOutside(event) {
             on:keydown={handleKeydown}
             aria-haspopup="listbox"
             aria-expanded={isOpen}
-            aria-label={label || placeholder}
+            aria-label={label || resolvedPlaceholder}
         >
             {#if icon}
                 <span class="dropdown-icon">
@@ -121,7 +126,7 @@ function handleClickOutside(event) {
             {/if}
             
             <span class="dropdown-text" class:is-placeholder={index === -1}>
-                {index >= 0 ? display_func(value) : placeholder}
+                {index >= 0 ? display_func(value) : resolvedPlaceholder}
             </span>
             
             <span class="dropdown-arrow" class:rotated={isOpen}>

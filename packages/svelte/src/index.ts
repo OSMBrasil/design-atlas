@@ -8,6 +8,7 @@ export { default as AtlContainer } from "./lib/AtlContainer.svelte";
 export { default as AtlField } from "./lib/AtlField.svelte";
 export { default as AtlLabel } from "./lib/AtlLabel.svelte";
 export { default as AtlLink } from "./lib/AtlLink.svelte";
+export { default as AtlLocaleProvider } from "./lib/AtlLocaleProvider.svelte";
 export { default as AtlMenu } from "./lib/AtlMenu.svelte";
 export { default as AtlRadio } from "./lib/AtlRadio.svelte";
 export { default as AtlSelect } from "./lib/AtlSelect.svelte";

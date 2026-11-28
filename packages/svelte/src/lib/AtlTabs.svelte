@@ -1,4 +1,8 @@
 <script lang="ts">
+    import { getAtlLocale } from './i18n/messages.js';
+
+    const atlLocale = getAtlLocale();
+
     export interface TabItem {
         label: string;
         href: string;
@@ -9,7 +13,9 @@
     }
 
     export let items: TabItem[] = [];
-    export let ariaLabel: string = "Tabs navigation";
+    export let ariaLabel: string = "";
+
+    $: resolvedAriaLabel = ariaLabel || atlLocale.messages.tabs.navigationLabel;
 
     let selectedIndex = items.findIndex(item => item.selected) || 0;
 
@@ -20,7 +26,7 @@
     }
 </script>
 
-<div class="tabs" role="tablist" aria-label={ariaLabel}>
+<div class="tabs" role="tablist" aria-label={resolvedAriaLabel}>
     {#each items as item, index}
         <a 
             href={item.href}
