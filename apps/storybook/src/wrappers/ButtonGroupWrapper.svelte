@@ -1,7 +1,7 @@
 <script lang="ts">
   import AtlButton from "@atlas/AtlButton.svelte";
   import AtlButtonGroup from "@atlas/AtlButtonGroup.svelte";
-  let { labels = ["Primeiro", "Segundo", "Terceiro"] }: { labels?: string[] } = $props();
+  let { labels = ["First", "Second", "Third"] }: { labels?: string[] } = $props();
 </script>
 
 <AtlButtonGroup>

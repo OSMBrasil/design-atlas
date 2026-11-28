@@ -27,7 +27,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Danger: Story = { args: {"variant":"danger"} };
-export const Tertiary: Story = { args: {"variant":"tertiary"} };
-export const Outline: Story = { args: {"variant":"outline"} };
-export const Disabled: Story = { args: {"disabled":true} };
+export const Danger: Story = { args: { variant: "danger" } };
+export const Tertiary: Story = { args: { variant: "tertiary" } };
+export const Outline: Story = { args: { variant: "outline" } };
+export const Disabled: Story = { args: { disabled: true } };
+export const OutlineDisabled: Story = { args: { variant: "outline", disabled: true } };

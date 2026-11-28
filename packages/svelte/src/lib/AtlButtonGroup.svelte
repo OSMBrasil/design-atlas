@@ -1,40 +1,43 @@
 <script lang="ts">
-
-    export let children;
-
+	export let ariaLabel = '';
+	export let children;
 </script>
 
-<div class="button-group">
-    <span class="group-content">{@render children?.()}</span>
+<div class="atl-button-group" role="group" aria-label={ariaLabel || undefined}>
+	{@render children?.()}
 </div>
 
 <style>
-    .button-group {
-        display: inline-flex;
-        line-height: 0; 
-        width: fit-content;
-        border-radius: var(--border-radius-4); 
-        overflow: hidden;
-        margin: 4px 0;
-    }
+	.atl-button-group {
+		display: inline-flex;
+		align-items: stretch;
+		width: fit-content;
+		border-radius: var(--border-radius-4);
+		margin-block: var(--spacing-4);
 
-    .button-group :global(> *) {
-        border-radius: 0 !important; 
-    }
+		& :global(> *) {
+			border-radius: 0;
+		}
 
-    .button-group :global(> *:first-child) {
-        border-start-start-radius: var(--border-radius-4) !important;
-        border-end-start-radius: var(--border-radius-4) !important;
-        margin-inline-start: 0; 
-    }
+		& :global(> *:not(:last-child)) {
+			border-inline-end: var(--border-width-1) solid var(--border-color-subtle);
+		}
 
-    .button-group :global(> *:last-child) {
-        border-start-end-radius: var(--border-radius-4) !important;
-        border-end-end-radius: var(--border-radius-4) !important;
-    }
+		& :global(> *:first-child) {
+			border-start-start-radius: var(--border-radius-4);
+			border-end-start-radius: var(--border-radius-4);
+			margin-inline-start: 0;
+		}
 
-    .button-group :global(> *:hover) {
-        position: relative;
-        z-index: 1; 
-    }
+		& :global(> *:last-child) {
+			border-start-end-radius: var(--border-radius-4);
+			border-end-end-radius: var(--border-radius-4);
+		}
+
+		& :global(> *:hover),
+		& :global(> *:focus-visible) {
+			position: relative;
+			z-index: 1;
+		}
+	}
 </style>

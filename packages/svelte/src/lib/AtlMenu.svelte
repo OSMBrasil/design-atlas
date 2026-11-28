@@ -1,18 +1,20 @@
 <script lang="ts">
+    import { createEventDispatcher } from 'svelte';
     import { chevronRight, type IconDefinition } from '@design-atlas/ms-icons';
-    import AtlIcon from "./AtlIcon.svelte";
-    import AtlTooltip from "./AtlTooltip.svelte";
-    import { getAtlLocale } from "./i18n/messages.js";
+    import AtlIcon from './AtlIcon.svelte';
+    import AtlTooltip from './AtlTooltip.svelte';
+    import { getAtlLocale } from './i18n/messages.js';
 
     const atlLocale = getAtlLocale();
+    const dispatch = createEventDispatcher<{ close: void }>();
 
     export interface MenuItem {
         label: string;
         href: string;
-        icon?: string;
+        icon?: IconDefinition | string;
         tiptext?: string;
         tipicon?: string;
-        tipdirection?: 
+        tipdirection?:
             | 'top'
             | 'top-start'
             | 'top-end'
@@ -29,44 +31,120 @@
         chevron?: boolean;
         disabled?: boolean;
         target?: '_blank' | '_self' | '_parent' | '_top';
-        rel?: string
+        rel?: string;
     }
 
     export let items: MenuItem[] = [];
+    /** @deprecated Kept for backwards compatibility; visible item labels are announced directly. */
     export let linkAriaLabel: string = '';
     export let moreThan99ItemsLabel: string = '';
     export let itemsCountLabel: ((count: number) => string) | undefined = undefined;
 
-    $: resolvedLinkLabel = linkAriaLabel || atlLocale.messages.menu.linkLabel;
+    $: void linkAriaLabel;
     $: resolvedMoreThan99 = moreThan99ItemsLabel || atlLocale.messages.menu.moreThan99Items;
     $: formatItemsCount = itemsCountLabel || atlLocale.messages.menu.itemsCount;
 
-    const chevron = `<svg width="7" height="13" viewBox="0 0 7 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.15001 6.31664L0.250008 1.41664C0.0833416 1.24997 0.00278568 1.05553 0.00834131 0.833303C0.0138969 0.611081 0.100008 0.416637 0.266675 0.24997C0.433341 0.0833035 0.627786 -2.95639e-05 0.850008 -2.95639e-05C1.07223 -2.95639e-05 1.26667 0.0833035 1.43334 0.24997L6.56667 5.36664C6.70001 5.49997 6.80001 5.64997 6.86667 5.81664C6.93334 5.9833 6.96667 6.14997 6.96667 6.31664C6.96667 6.4833 6.93334 6.64997 6.86667 6.81664C6.80001 6.9833 6.70001 7.1333 6.56667 7.26664L1.43334 12.4C1.26667 12.5666 1.06945 12.6472 0.841675 12.6416C0.613897 12.6361 0.416675 12.55 0.250008 12.3833C0.0833416 12.2166 8.10623e-06 12.0222 8.10623e-06 11.8C8.10623e-06 11.5777 0.0833416 11.3833 0.250008 11.2166L5.15001 6.31664Z" fill="var(--color-base)"/></svg>`
+    let itemEls: (HTMLAnchorElement | null)[] = [];
+    let activeIndex = 0;
 
+    $: {
+        const firstEnabled = items.findIndex((item) => !item.disabled);
+        activeIndex = firstEnabled >= 0 ? firstEnabled : 0;
+    }
+
+    function getEnabledIndices(): number[] {
+        const indices: number[] = [];
+        for (let i = 0; i < items.length; i++) {
+            if (!items[i].disabled) {
+                indices.push(i);
+            }
+        }
+        return indices;
+    }
+
+    function focusItem(index: number) {
+        activeIndex = index;
+        itemEls[index]?.focus();
+    }
+
+    function handleKeydown(event: KeyboardEvent, currentIndex: number) {
+        const enabled = getEnabledIndices();
+        if (enabled.length === 0) return;
+
+        const currentPos = enabled.indexOf(currentIndex);
+
+        switch (event.key) {
+            case 'ArrowDown': {
+                event.preventDefault();
+                const nextPos = currentPos >= 0 ? (currentPos + 1) % enabled.length : 0;
+                focusItem(enabled[nextPos]);
+                break;
+            }
+            case 'ArrowUp': {
+                event.preventDefault();
+                const prevPos = currentPos >= 0 ? (currentPos - 1 + enabled.length) % enabled.length : enabled.length - 1;
+                focusItem(enabled[prevPos]);
+                break;
+            }
+            case 'Home': {
+                event.preventDefault();
+                focusItem(enabled[0]);
+                break;
+            }
+            case 'End': {
+                event.preventDefault();
+                focusItem(enabled[enabled.length - 1]);
+                break;
+            }
+            case 'Escape': {
+                event.preventDefault();
+                (event.currentTarget as HTMLElement | null)?.blur();
+                dispatch('close');
+                break;
+            }
+        }
+    }
+
+    function handleClick(event: MouseEvent, item: MenuItem) {
+        if (item.disabled) {
+            event.preventDefault();
+        }
+    }
 </script>
 
-<div class="menu">
-    {#each items as item}
-        <a 
-            href={item.href}
-            target={item.target || '_self'}
-            rel={item.rel || ''}
-            tabindex={item.disabled ? -1 : 0}
-            class:disabled={item.disabled}
-            aria-label={resolvedLinkLabel}
-            class="item"
-            >
+<div class="atl-menu" role="menu">
+    {#each items as item, index}
+        <a
+            bind:this={itemEls[index]}
+            href={item.disabled ? undefined : item.href}
+            target={item.disabled ? undefined : item.target || '_self'}
+            rel={item.disabled ? undefined : item.rel || undefined}
+            role="menuitem"
+            aria-disabled={item.disabled || undefined}
+            tabindex={item.disabled ? -1 : index === activeIndex ? 0 : -1}
+            class="atl-menu__item"
+            class:atl-menu__item--disabled={item.disabled}
+            on:focus={() => {
+                if (!item.disabled) activeIndex = index;
+            }}
+            on:keydown={(event) => handleKeydown(event, index)}
+            on:click={(event) => handleClick(event, item)}
+        >
             {#if item.icon}
-                <span class="icon" aria-hidden="true"><AtlIcon icon={item.icon} size="20px" /></span>
+                <span class="atl-menu__icon" aria-hidden="true">
+                    <AtlIcon icon={item.icon} size="20px" />
+                </span>
             {/if}
-            {item.label}
+
+            <span class="atl-menu__label">{item.label}</span>
+
             {#if item.tiptext}
-                <AtlTooltip text={item.tiptext} direction={item.tipdirection || 'right'}></AtlTooltip>
+                <AtlTooltip text={item.tiptext} direction={item.tipdirection || 'right'} />
             {/if}
 
             {#if item.badgeNumber && item.badgeNumber > 0}
-                <span 
-                    class="badge"
+                <span
+                    class="atl-menu__badge"
                     role="status"
                     aria-label={
                         item.badgeNumber > 99
@@ -79,80 +157,88 @@
             {/if}
 
             {#if item.chevron}
-                <span class="chevron-right" aria-hidden="true">
+                <span class="atl-menu__chevron" aria-hidden="true">
                     <AtlIcon icon={chevronRight} size="20px" />
                 </span>
             {/if}
-
         </a>
     {/each}
 </div>
 
 <style>
-    .menu {
+    .atl-menu {
         width: fit-content;
-        min-width: 144px;
-        border: 0.4px solid;
-        border-color: var(--border-color-base);
-        border-radius: 4px;
-        box-shadow: var(--shadow-sm);
+        min-width: var(--dimension-144);
+        background-color: var(--bgn-surface);
+        border: var(--border-width-04) solid var(--border-color-subtle);
+        border-radius: var(--border-radius-4);
+        padding-block: var(--spacing-8);
+        box-shadow: var(--shadow-md);
     }
 
-    .item {
+    .atl-menu__item {
         position: relative;
-        padding-block: 8px 4px;
-        padding-inline: var(--spacing-8) var(--spacing-24);   
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-8);
+        padding-block: var(--spacing-8);
+        padding-inline: var(--spacing-12) var(--spacing-16);
+        color: var(--color-base);
+        font-size: var(--font-size-16);
+        line-height: var(--line-height-label);
+        text-decoration: var(--text-decoration-none);
+        border-radius: var(--border-radius-4);
+        cursor: var(--cursor-pointer);
+
+        &:hover {
+            background-color: var(--bgn-surface-hover);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--border-color-focus);
+            outline-offset: -2px;
+        }
+
+        &.atl-menu__item--disabled {
+            pointer-events: none;
+            color: var(--color-disable);
+            cursor: var(--cursor-disable);
+        }
     }
 
-    .item:focus {
-        background-color: var(--bgn-accent);
+    .atl-menu__icon {
+        display: inline-flex;
+        align-items: center;
+        flex-shrink: 0;
     }
 
-    .item:hover {
-        background-color: var(--bgn-disable);
+    .atl-menu__label {
+        flex: 1 1 auto;
     }
 
-    a.disabled {
-        pointer-events: none;
-        color: var(--color-disable);
-    }
-
-    .menu a {
-        text-decoration: none;
-        display: block;
-        border-radius: 4px;
-    }
-
-    .menu a:focus {
-        outline: 2px solid var(--border-color-focus);
-        outline-offset: 1px;
-    }
-
-    .menu a.item:focus {
-        border: 2px solid var(--border-color-focus);
-    }
-
-    .badge {
-        margin-inline-start: 6px;
-        padding: 0px 2px;
-        background-color: red;
-        display: inline;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--white);
-        min-width: 32px;
-        height: 17px;
+    .atl-menu__badge {
+        margin-inline-start: var(--spacing-4);
+        padding-block: 0;
+        padding-inline: var(--spacing-4);
+        background-color: var(--bgn-danger);
+        color: var(--color-inverse);
+        border-radius: var(--border-radius-4);
+        font-size: var(--font-size-12);
+        font-weight: var(--font-weight-bold);
+        line-height: var(--line-height-label);
+        min-width: var(--dimension-32);
+        min-height: var(--size-20);
         text-align: center;
         justify-content: center;
         align-items: center;
         display: inline-flex;
+        flex-shrink: 0;
     }
 
-    .chevron-right {
-        position: absolute;
-        inset-inline-end: 10% !important;
-        
+    .atl-menu__chevron {
+        margin-inline-start: auto;
+        display: inline-flex;
+        align-items: center;
+        flex-shrink: 0;
     }
-
 </style>

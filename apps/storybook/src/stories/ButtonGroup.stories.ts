@@ -5,12 +5,8 @@ const meta = {
   title: "Components/ButtonGroup",
   component: Component,
   args: {
-  "labels": [
-    "Primeiro",
-    "Segundo",
-    "Terceiro"
-  ]
-},
+    labels: ["First", "Second", "Third"],
+  },
   argTypes: {},
 } satisfies Meta<typeof Component>;
 

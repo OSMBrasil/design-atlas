@@ -1,22 +1,34 @@
 <script>
-	import { infoFill, checkCircleFill, warningFill, reportFill, close as closeIcon, person } from '@design-atlas/ms-icons';
+	import {
+		infoFill,
+		checkCircleFill,
+		warningFill,
+		reportFill,
+		close as closeIcon,
+		person
+	} from '@design-atlas/ms-icons';
 	import AtlIcon from './AtlIcon.svelte';
 	import { getAtlLocale } from './i18n/messages.js';
 
 	const atlLocale = getAtlLocale();
 
+	export let id = '';
+	export let name = '';
 	export let startIcon = '';
 	export let endIcon = '';
 	export let clearable = false;
 	export let clearButtonLabel = '';
 	export let inputType = 'text';
-	export let status = 'default'; // "default", "error", "success"
+	export let status = 'default'; // 'default' | 'error' | 'success'
 	export let disabled = false;
 	export let readonly = false;
+	export let required = false;
 	export let placeholder = 'Placeholder';
 	export let value = '';
+	export let ariaDescribedby = '';
 
 	$: resolvedClearLabel = clearButtonLabel || atlLocale.messages.textInput.clear;
+	$: describedBy = $$restProps['aria-describedby'] || ariaDescribedby || undefined;
 
 	const namedIcons = {
 		info: infoFill,
@@ -47,132 +59,157 @@
 	}
 </script>
 
-<div class="atl-field {status}">
+<div
+	class="atl-text-input {status}"
+	class:success={isSuccess}
+	class:error={isError}
+	class:disabled
+	class:readonly
+>
 	{#if resolvedStartIcon}
-		<span class="icon left">
+		<span class="atl-text-input__icon atl-text-input__icon--start" aria-hidden="true">
 			<AtlIcon icon={resolvedStartIcon} size="20px" />
 		</span>
 	{/if}
 
 	<input
+		{...$$restProps}
+		id={id || undefined}
+		name={name || undefined}
 		type={inputType}
-		bind:value
+		class="atl-text-input__input"
+		{value}
 		on:input={handleInput}
-		class:success={isSuccess}
-		class:error={isError}
 		{placeholder}
 		{disabled}
 		{readonly}
-		style="padding-inline-start: {resolvedStartIcon ? '36px' : '12px'}; padding-inline-end: {resolvedEndIcon || clearable
-			? '36px'
-			: '12px'};"
+		{required}
+		aria-invalid={isError || undefined}
+		aria-describedby={describedBy}
 	/>
+
 	{#if clearable && value && !readonly && !disabled}
-		<button class="clear-button" type="button" on:click={clearInput} aria-label={resolvedClearLabel}>
+		<button
+			class="atl-text-input__clear"
+			type="button"
+			on:click={clearInput}
+			aria-label={resolvedClearLabel}
+		>
 			<AtlIcon icon={closeIcon} size="20px" />
 		</button>
 	{/if}
 
 	{#if resolvedEndIcon}
-		<span class="icon right end-icon">
+		<span class="atl-text-input__icon atl-text-input__icon--end" aria-hidden="true">
 			<AtlIcon icon={resolvedEndIcon} size="20px" />
 		</span>
 	{/if}
 </div>
 
 <style>
-	.atl-field {
-		position: relative;
+	.atl-text-input {
 		display: inline-flex;
 		align-items: center;
+		gap: var(--spacing-8);
 		width: 100%;
 		max-width: var(--size-416);
 		height: var(--size-40);
-	}
-
-	input {
-		width: 100%;
-		height: 100%;
+		padding-inline: var(--spacing-12);
 		box-sizing: border-box;
 		border: var(--border-width-1) solid var(--border-color-base);
 		border-radius: var(--border-radius-4);
 		background-color: transparent;
-		font-size: var(--font-size-16);
-		line-height: var(--line-height-label);
-		padding-inline-start: 12px;
-		padding-inline-end: 12px;
+		transition: border-color 0.2s;
 
-		&:focus {
-			border-color: var(--border-color-focus);
+		&:not(.disabled):not(.readonly):not(.success):not(.error):hover {
+			border-color: var(--border-color-accent);
 		}
-	}
-	input:not(:disabled):not(:read-only):hover {
-		border-color: var(--border-color-accent);
-	}
-	input:disabled {
-		background: var(--bgn-base);
-		cursor: not-allowed;
-	}
 
-	input.success {
-		border-color: var(--border-color-success);
-	}
+		&:focus-within:not(.disabled) {
+			border-color: var(--border-color-focus);
+			outline: 2px solid var(--border-color-focus);
+			outline-offset: -1px;
+		}
 
-	input.error {
-		border-color: var(--border-color-error);
-	}
+		&.success {
+			border-color: var(--border-color-success);
+		}
 
-	.atl-field:has(input:disabled) .icon {
-		opacity: var(--opacity-30);
-	}
-	.atl-field:has(input:read-only) .icon {
-		opacity: var(--opacity-50);
-	}
-	.icon {
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 24px;
-		height: 24px;
-		pointer-events: none;
-	}
+		&.error {
+			border-color: var(--border-color-error);
+		}
 
-	.icon.left {
-		inset-inline-start: var(--spacing-8);
-	}
+		&.disabled {
+			background-color: var(--bgn-base);
+			cursor: not-allowed;
 
-	.icon.right {
-		inset-inline-end: var(--spacing-8);
-		pointer-events: auto;
-	}
-	.clear-button {
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		inset-inline-end: var(--spacing-12);
-		background: none;
-		border: none;
-		padding: 0;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 24px;
-		height: 24px;
-		z-index: 1;
-	}
+			& .atl-text-input__input {
+				cursor: not-allowed;
+			}
 
-	.clear-button:hover {
-		opacity: var(--opacity-80);
-	}
+			& .atl-text-input__icon {
+				opacity: var(--opacity-30);
+			}
+		}
 
-	.icon.right.end-icon {
-		inset-inline-end: var(--spacing-8);
-	}
-	:focus {
-    outline: none;
+		&.readonly {
+			& .atl-text-input__icon {
+				opacity: var(--opacity-50);
+			}
+		}
+
+		& .atl-text-input__input {
+			flex: 1 1 auto;
+			min-width: 0;
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			border: none;
+			background: transparent;
+			font-family: var(--font-family-sans-serif);
+			font-size: var(--font-size-16);
+			line-height: var(--line-height-label);
+			color: var(--color-base-hover);
+			outline: none;
+
+			&::placeholder {
+				color: var(--color-disable);
+			}
+		}
+
+		& .atl-text-input__icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			width: var(--size-24);
+			height: var(--size-24);
+			color: var(--color-base);
+			pointer-events: none;
+		}
+
+		& .atl-text-input__clear {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			width: var(--size-24);
+			height: var(--size-24);
+			padding: 0;
+			border: none;
+			border-radius: var(--border-radius-4);
+			background: transparent;
+			color: var(--color-base);
+			cursor: pointer;
+
+			&:hover {
+				opacity: var(--opacity-80);
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--border-color-focus);
+				outline-offset: 1px;
+			}
+		}
 	}
 </style>

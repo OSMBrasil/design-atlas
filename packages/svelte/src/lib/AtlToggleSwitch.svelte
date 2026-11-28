@@ -1,126 +1,124 @@
 <script lang="ts">
-    import AtlLabel from "./AtlLabel.svelte"; 
+	import AtlLabel from './AtlLabel.svelte';
 
-    let {
-        label = '',
-        value = $bindable('on'),
-        description = '',
-        disabled = false
-    } = $props();
+	let {
+		id = '',
+		label = '',
+		value = $bindable('on'),
+		description = '',
+		disabled = false,
+		visuallyHidden = false,
+		onchange = undefined as ((value: 'on' | 'off') => void) | undefined
+	} = $props();
 
-    let checked = $state(true);
+	const checked = $derived(value === 'on');
+	const generatedId = `atl-switch-${Math.random().toString(36).slice(2, 9)}`;
+	const switchId = $derived(id || generatedId);
+	const labelId = $derived(`${switchId}-label`);
 
-    const uniqueID = `switch-${Math.floor(Math.random() * 10000)}`;
+	function handleClick() {
+		if (disabled) return;
 
-    function handleClick(event) {
-        if (disabled) return; 
-
-        checked = !checked;
-        value = checked ? 'on' : 'off';
-    }
+		const nextValue: 'on' | 'off' = checked ? 'off' : 'on';
+		value = nextValue;
+		onchange?.(nextValue);
+	}
 </script>
 
-<div class="toggle-container" class:disabled={disabled}> 
-    <AtlLabel 
-        id={uniqueID} 
-        label={label} 
-        description={description}
-        disabled={disabled}
-    />
+<div class="atl-toggle-switch" class:atl-toggle-switch--disabled={disabled}>
+	{#if label}
+		<div id={labelId}>
+			<AtlLabel
+				id={switchId}
+				{label}
+				{description}
+				{disabled}
+				{visuallyHidden}
+			/>
+		</div>
+	{/if}
 
-    <button
-        id={uniqueID} 
-        role="switch"
-        aria-checked={checked}
-        aria-labelledby={uniqueID}
-        aria-describedby={description ? `${uniqueID}-description` : undefined}
-        onclick={handleClick}
-        disabled={disabled}
-    >
-    </button>
-
-    {#if description}
-        <span id={`${uniqueID}-description`} class="sr-only">{description}</span>
-    {/if}
+	<button
+		type="button"
+		id={switchId}
+		class="atl-toggle-switch__control"
+		role="switch"
+		aria-checked={checked}
+		aria-labelledby={label ? labelId : undefined}
+		onclick={handleClick}
+		{disabled}
+	></button>
 </div>
 
 <style>
+	.atl-toggle-switch {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-8);
+	}
 
-    .toggle-container {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
+	.atl-toggle-switch__control {
+		position: relative;
+		box-sizing: border-box;
+		width: var(--size-40);
+		height: var(--size-20);
+		padding: 0;
+		background-color: var(--bgn-surface);
+		border: var(--border-width-1) solid var(--border-color-base);
+		border-radius: var(--border-radius-16);
+		cursor: var(--cursor-pointer);
+		flex-shrink: 0;
+		transition: background-color 0.2s ease, border-color 0.2s ease;
 
-    .toggle-container.disabled button{
-        background-color: var(--bgn-disable) !important; 
-        border-color: var(--bgn-disable) !important;
-    }
-    
-    .toggle-container button {
-        width: 40px;
-        height: 20px;
-        position: relative;
-        border: 0.4px solid var(--border-color-base);
-        border-radius: 1.5em;
-        cursor: pointer;
-        pointer-events: auto; 
-    }
+		&::before {
+			content: '';
+			position: absolute;
+			width: var(--size-16);
+			height: var(--size-16);
+			inset-block-start: 50%;
+			inset-inline-start: var(--border-width-1);
+			background-color: var(--color-base);
+			border-radius: 50%;
+			transform: translateY(-50%);
+			transition: transform 0.2s ease, background-color 0.2s ease;
+		}
 
-    .toggle-container.disabled button {
-        cursor: not-allowed;
-    }
+		&:hover:not(:disabled) {
+			background-color: var(--bgn-surface-hover);
+		}
 
-    button:focus {
-        outline: 2px solid var(--color-accent) !important;
-        outline-offset: 1px;
-    }
+		&:focus-visible {
+			outline: var(--border-width-2) solid var(--border-color-focus);
+			outline-offset: var(--border-width-2);
+		}
 
-    button:hover:not(:disabled) {
-        background-color: var(--bgn-base);
-    }
+		&[aria-checked='true'] {
+			background-color: var(--bgn-accent);
+			border-color: var(--border-color-accent);
 
-    .toggle-container button::before {
-        content: '';
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        background: var(--color-base);
-        inset-block-start: 1.2px;
-        inset-inline-start: 2px;
-        transition: transform 0.3s;
-        border-radius: 100%;
-    }
+			&:hover:not(:disabled) {
+				background-color: var(--bgn-accent-hover);
+				border-color: var(--bgn-accent-hover);
+			}
 
-    .toggle-container button[aria-checked='true'] {
-        background-color: var(--bgn-accent);
-        border-color: var(--bgn-accent);
-    }
+			&::before {
+				background-color: var(--color-inverse);
+				transform: translateY(-50%) translateX(var(--size-20));
+			}
+		}
 
-    .toggle-container button[aria-checked='true']:hover:not(:disabled) {
-        background-color: var(--bgn-accent-hover);
-    }
+		&:disabled {
+			background-color: var(--bgn-disable);
+			border-color: var(--border-color-disable);
+			cursor: var(--cursor-not-allowed);
 
-    .toggle-container button[aria-checked='true']::before {
-        background-color: var(--bgn-surface);
-        transform: translateX(21px);
-        transition: transform 0.3s;
-    }
+			&::before {
+				background-color: var(--color-inverse);
+			}
+		}
+	}
 
-    :global([dir='rtl']) .toggle-container button[aria-checked='true']::before {
-        transform: translateX(-21px);
-    }
-
-    .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        border: 0;
-        white-space: nowrap;
-    }
-
+	:global([dir='rtl']) .atl-toggle-switch__control[aria-checked='true']::before {
+		transform: translateY(-50%) translateX(calc(-1 * var(--size-20)));
+	}
 </style>
