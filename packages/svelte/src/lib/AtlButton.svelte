@@ -7,7 +7,16 @@
 </script>
 
 <button
-	class={`atl-button ${variant} ${withIcon ? 'with-icon' : ''} ${disabled ? 'disabled' : ''}`}
+	{...$$restProps}
+	class={[
+		'atl-button',
+		variant,
+		withIcon && 'with-icon',
+		disabled && 'disabled',
+		$$restProps.class
+	]
+		.filter(Boolean)
+		.join(' ')}
 	{type}
 	{disabled}
 	on:click
@@ -18,7 +27,7 @@
 <style>
 	.atl-button {
 		display: inline-flex;
-		align-content: center;
+		align-items: center;
 		justify-content: center;
 		width: fit-content;
 		background-color: var(--bgn-accent);
@@ -30,8 +39,7 @@
 		font-family: var(--font-family-sans-serif);
 		font-weight: var(--font-weight-regular);
 		font-size: var(--font-size-16);
-		line-height: 1.1;
-		outline: none;
+		line-height: var(--line-height-label);
 		cursor: var(--cursor-pointer);
 		height: var(--dimension-36);
 		flex-shrink: 0;
@@ -42,7 +50,11 @@
 
 		&:active {
 			background-color: var(--bgn-accent-active);
-			outline: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--border-color-focus);
+			outline-offset: 2px;
 		}
 
 		&.danger {
@@ -65,6 +77,7 @@
 
 			&:hover {
 				background-color: var(--bgn-surface-hover);
+				color: var(--color-base-hover);
 			}
 
 			&:active {
@@ -76,19 +89,17 @@
 		&.outline {
 			background-color: transparent;
 			border: var(--border-style-accent);
-			background-color: transparent;
 			font-weight: var(--font-weight-semibold, 600);
 			color: var(--color-accent);
 
 			&:hover {
-				background-color: var(--bgn-foreground);
+				background-color: var(--bgn-accent);
+				color: var(--color-inverse);
 			}
 
 			&:active {
-				background-color: var(--bgn-accent);
+				background-color: var(--bgn-accent-active);
 				color: var(--color-inverse);
-
-				border: var(--border-style-accent);
 			}
 		}
 
@@ -100,14 +111,21 @@
 		&.disabled {
 			background-color: var(--bgn-disable);
 			color: var(--color-disable);
-			cursor: not-allowed;
+			cursor: var(--cursor-not-allowed);
 			pointer-events: none;
+		}
 
-			&:hover,
-			&:active {
-				background-color: var(--bgn-disable);
-				color: var(--color-disable);
-			}
+		&.outline:disabled,
+		&.outline.disabled {
+			background-color: transparent;
+			border-color: var(--border-color-disable);
+			color: var(--color-disable);
+		}
+
+		&.tertiary:disabled,
+		&.tertiary.disabled {
+			background-color: transparent;
+			color: var(--color-disable);
 		}
 	}
 </style>

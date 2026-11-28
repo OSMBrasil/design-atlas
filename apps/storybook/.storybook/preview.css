@@ -44,3 +44,37 @@ html[data-atl-view="story"][data-atl-theme="dark"] body.sb-show-main {
   color: var(--color-base);
   transition: background-color 0.15s ease, color 0.15s ease;
 }
+
+/* Scoped text direction (LTR/RTL) applied strictly to the component preview area */
+html[data-atl-dir="rtl"] .docs-story,
+html[data-atl-dir="rtl"] #storybook-root {
+  direction: rtl;
+}
+
+html[data-atl-dir="ltr"] .docs-story,
+html[data-atl-dir="ltr"] #storybook-root {
+  direction: ltr;
+}
+
+/* Autodocs ArgsTable: hide the Default column and display "Value" instead of "Control" */
+.docblock-argstable thead tr th:nth-child(3),
+.docblock-argstable tbody tr td:nth-child(3):not([colspan]) {
+  display: none;
+}
+
+.docblock-argstable thead tr th:nth-child(4) > span {
+  font-size: 0;
+}
+
+.docblock-argstable thead tr th:nth-child(4) > span::before {
+  content: "Value";
+  font-size: 13px;
+}
+
+/* MDX Markdown tables: remove zebra-striping so all rows share a single uniform background */
+.sbdocs table:not(.docblock-argstable) tr,
+.sbdocs table:not(.docblock-argstable) tr:nth-of-type(2n),
+.sbdocs table:not(.docblock-argstable) th,
+.sbdocs table:not(.docblock-argstable) td {
+  background-color: transparent !important;
+}

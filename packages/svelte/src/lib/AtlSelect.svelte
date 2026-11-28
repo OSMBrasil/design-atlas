@@ -1,18 +1,23 @@
 <script>
-    import AtlLabel from "./AtlLabel.svelte";
+	import { keyboardArrowDown } from '@design-atlas/ms-icons';
+	import AtlIcon from './AtlIcon.svelte';
+	import AtlLabel from './AtlLabel.svelte';
+	import { getAtlLocale } from './i18n/messages.js';
 
-    // Select variables
-    export let options = [];
-    export let display_func = a => a;
-    export let index = -1;
-    export let value;
-    export let disabled = false;
-    export let placeholder = "Select an option";
-    export let variant = "default";
-    export let icon = null;
+	const atlLocale = getAtlLocale();
 
-    // Label variables
-    export let id = '';
+	// Select props
+	export let options = [];
+	export let display_func = (a) => a;
+	export let index = -1;
+	export let value;
+	export let disabled = false;
+	export let placeholder = '';
+	export let variant = 'default';
+	export let icon = null;
+
+	// Label props
+	export let id = '';
 	export let label = 'Label';
 	export let optional = false;
 	export let visuallyHidden = false;
@@ -20,311 +25,344 @@
 	export let required = false;
 	export let description = '';
 
-    let isOpen = false;
-    let dropdownRef;
-    let buttonId = `dropdown-${Math.random().toString(36).substr(2, 9)}`;
-    let keyboardNavigation = false;
+	let isOpen = false;
+	let dropdownRef;
+	const buttonId = `atl-select-${Math.random().toString(36).slice(2, 11)}`;
+	let activeIndex = -1;
 
-$: {
-    value = index >= 0 ? options[index] : undefined;
-}
+	$: resolvedPlaceholder = placeholder || atlLocale.messages.select.placeholder;
+	$: resolvedId = id || buttonId;
+	$: labelId = `${resolvedId}-label`;
+	$: valueId = `${resolvedId}-value`;
+	$: listboxId = `${resolvedId}-listbox`;
+	$: activeOptionId =
+		isOpen && activeIndex >= 0 && activeIndex < options.length
+			? `${resolvedId}-option-${activeIndex}`
+			: undefined;
 
-function toggleDropdown() {
-    if (disabled) return;
-    isOpen = !isOpen;
-}
+	$: {
+		value = index >= 0 ? options[index] : undefined;
+	}
 
-function selectOption(i) {
-    index = i;
-    isOpen = false;
-    keyboardNavigation = false;
-}
+	function openDropdown() {
+		if (disabled) return;
+		isOpen = true;
+		activeIndex = index >= 0 ? index : options.length > 0 ? 0 : -1;
+	}
 
-function handleKeydown(event) {
-    if (disabled) return;
-    
-    switch (event.key) {
-        case 'Enter':
-        case ' ':
-            event.preventDefault();
-            toggleDropdown();
-            break;
-        case 'Escape':
-            isOpen = false;
-            break;
-        case 'ArrowDown':
-            event.preventDefault();
-            keyboardNavigation = true;
-            if (!isOpen) {
-                isOpen = true;
-            } else if (index < options.length - 1) {
-                index = index + 1;
-            }
-            break;
-        case 'ArrowUp':
-            event.preventDefault();
-            keyboardNavigation = true;
-            if (!isOpen) {
-                isOpen = true;
-            } else if (index > 0) {
-                index = index - 1;
-            }
-            break;
-        case 'Home':
-            event.preventDefault();
-            keyboardNavigation = true;
-            index = 0;
-            break;
-        case 'End':
-            event.preventDefault();
-            keyboardNavigation = true;
-            index = options.length - 1;
-            break;
-    }
-}
+	function closeDropdown() {
+		isOpen = false;
+		activeIndex = -1;
+	}
 
-function handleClickOutside(event) {
-    if (dropdownRef && !dropdownRef.contains(event.target)) {
-        isOpen = false;
-    }
-}
+	function toggleDropdown() {
+		if (disabled) return;
+		if (isOpen) {
+			closeDropdown();
+		} else {
+			openDropdown();
+		}
+	}
+
+	function selectOption(i) {
+		if (i < 0 || i >= options.length) return;
+		index = i;
+		closeDropdown();
+	}
+
+	function handleKeydown(event) {
+		if (disabled) return;
+
+		switch (event.key) {
+			case 'Enter':
+			case ' ':
+				event.preventDefault();
+				if (isOpen) {
+					if (activeIndex >= 0) {
+						selectOption(activeIndex);
+					} else {
+						closeDropdown();
+					}
+				} else {
+					openDropdown();
+				}
+				break;
+			case 'Escape':
+				if (isOpen) {
+					event.preventDefault();
+					closeDropdown();
+				}
+				break;
+			case 'ArrowDown':
+				event.preventDefault();
+				if (!isOpen) {
+					openDropdown();
+				} else if (activeIndex < options.length - 1) {
+					activeIndex = activeIndex + 1;
+				}
+				break;
+			case 'ArrowUp':
+				event.preventDefault();
+				if (!isOpen) {
+					openDropdown();
+				} else if (activeIndex > 0) {
+					activeIndex = activeIndex - 1;
+				}
+				break;
+			case 'Home':
+				event.preventDefault();
+				if (options.length > 0) {
+					if (!isOpen) openDropdown();
+					activeIndex = 0;
+				}
+				break;
+			case 'End':
+				event.preventDefault();
+				if (options.length > 0) {
+					if (!isOpen) openDropdown();
+					activeIndex = options.length - 1;
+				}
+				break;
+		}
+	}
+
+	function handleClickOutside(event) {
+		if (dropdownRef && !dropdownRef.contains(event.target)) {
+			closeDropdown();
+		}
+	}
 </script>
 
 <svelte:window on:click={handleClickOutside} />
 
-<div class="select-wrapper">
-    {#if label}
-        <AtlLabel {id} {label} {optional} {visuallyHidden} {isLegend} {required} {description}/>
-    {/if}
-    
-    <div class="dropdown-container" bind:this={dropdownRef}>
-        <button
-            type="button"
-            id={buttonId}
-            class="dropdown-trigger"
-            class:variant-default={variant === 'default'}
-            class:variant-active={variant === 'active'}
-            class:variant-icon={variant === 'icon'}
-            class:has-icon={icon}
-            class:is-open={isOpen}
-            {disabled}
-            on:click={toggleDropdown}
-            on:keydown={handleKeydown}
-            aria-haspopup="listbox"
-            aria-expanded={isOpen}
-            aria-label={label || placeholder}
-        >
-            {#if icon}
-                <span class="dropdown-icon">
-                    {@html icon}
-                </span>
-            {/if}
-            
-            <span class="dropdown-text" class:is-placeholder={index === -1}>
-                {index >= 0 ? display_func(value) : placeholder}
-            </span>
-            
-            <span class="dropdown-arrow" class:rotated={isOpen}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6,9 12,15 18,9"></polyline>
-                </svg>
-            </span>
-        </button>
-        
-        {#if isOpen}
-            <ul class="dropdown-menu" role="listbox" aria-labelledby={buttonId}>
-                {#each options as option, i}
-                    <li
-                        class="dropdown-item"
-                        class:selected={i === index}
-                        class:keyboard-mode={keyboardNavigation}
-                        role="option"
-                        aria-selected={i === index}
-                        on:click={() => selectOption(i)}
-                        on:keydown={(e) => e.key === 'Enter' && selectOption(i)}
-                        tabindex="-1"
-                    >
-                        {display_func(option)}
-                    </li>
-                {/each}
-            </ul>
-        {/if}
-    </div>
-    
+<div class="atl-select">
+	{#if label}
+		<div id={labelId}>
+			<AtlLabel
+				id={resolvedId}
+				{label}
+				{optional}
+				{visuallyHidden}
+				{isLegend}
+				{required}
+				{description}
+				{disabled}
+			/>
+		</div>
+	{/if}
+
+	<div class="atl-select__control" bind:this={dropdownRef}>
+		<button
+			type="button"
+			role="combobox"
+			id={resolvedId}
+			class="atl-select__trigger"
+			class:atl-select__trigger--active={variant === 'active'}
+			class:atl-select__trigger--open={isOpen}
+			{disabled}
+			on:click={toggleDropdown}
+			on:keydown={handleKeydown}
+			aria-haspopup="listbox"
+			aria-expanded={isOpen}
+			aria-controls={isOpen ? listboxId : undefined}
+			aria-activedescendant={activeOptionId}
+			aria-labelledby={label ? `${labelId} ${valueId}` : valueId}
+		>
+			{#if icon}
+				<span class="atl-select__icon">
+					<AtlIcon {icon} size="16px" />
+				</span>
+			{/if}
+
+			<span
+				id={valueId}
+				class="atl-select__text"
+				class:atl-select__text--placeholder={index === -1}
+			>
+				{index >= 0 ? display_func(value) : resolvedPlaceholder}
+			</span>
+
+			<span class="atl-select__arrow" class:atl-select__arrow--open={isOpen}>
+				<AtlIcon icon={keyboardArrowDown} size="24px" />
+			</span>
+		</button>
+
+		{#if isOpen}
+			<ul
+				id={listboxId}
+				class="atl-select__menu"
+				role="listbox"
+				aria-labelledby={label ? labelId : resolvedId}
+			>
+				{#each options as option, i}
+					<li
+						id={`${resolvedId}-option-${i}`}
+						class="atl-select__item"
+						class:atl-select__item--selected={i === index}
+						class:atl-select__item--active={i === activeIndex}
+						role="option"
+						aria-selected={i === index}
+						on:click={() => selectOption(i)}
+						on:mouseenter={() => (activeIndex = i)}
+						on:keydown={(e) => e.key === 'Enter' && selectOption(i)}
+						tabindex="-1"
+					>
+						{display_func(option)}
+					</li>
+				{/each}
+			</ul>
+		{/if}
+	</div>
 </div>
 
 <style>
-.select-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-family: var(--font-family-sans-serif);
-}
+	.atl-select {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-8);
+		font-family: var(--font-family-sans-serif);
 
-.dropdown-container {
-    position: relative;
-    display: inline-block;
-}
+		& .atl-select__control {
+			position: relative;
+			display: inline-block;
+		}
 
-.dropdown-trigger {
-    background: none;
-    border: none;
-    outline: none;
-    
-    display: flex;
-    align-items: center;
-    width: 248px;
-    height: 40px;
-    padding: 10px 12px;
-    box-sizing: border-box;
-    
-    background-color: var(--bgn-base);
-    border: 1px solid var(--color-base);
-    border-radius: 6px;
-    
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    color: var(--color-base);
-    text-align: left;
-    
-    cursor: pointer;
-    
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
+		& .atl-select__trigger {
+			display: flex;
+			align-items: center;
+			gap: var(--spacing-8);
+			width: var(--dimension-240);
+			min-height: var(--size-40);
+			padding: var(--spacing-8) var(--spacing-12);
+			box-sizing: border-box;
+			background-color: transparent;
+			border: var(--border-width-1) solid var(--border-color-base);
+			border-radius: var(--border-radius-4);
+			font-family: var(--font-family-sans-serif);
+			font-size: var(--font-size-16);
+			font-weight: var(--font-weight-regular);
+			line-height: var(--line-height-label);
+			color: var(--color-base);
+			text-align: start;
+			cursor: var(--cursor-pointer);
+			transition: border-color 0.2s ease;
 
-.dropdown-trigger:hover:not(:disabled) {
-    border-color: var(--color-accent);
-}
+			&:hover:not(:disabled) {
+				border-color: var(--border-color-accent);
+			}
 
-.dropdown-trigger:focus,
-.dropdown-trigger.is-open {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 1px var(--color-accent);
-}
+			&:focus-visible {
+				outline: 2px solid var(--border-color-focus);
+				outline-offset: 2px;
+			}
 
-.dropdown-trigger.variant-active {
-    border-color: var(--color-accent);
-}
+			&.atl-select__trigger--open,
+			&.atl-select__trigger--active {
+				border-color: var(--border-color-accent);
+			}
 
-.dropdown-trigger.has-icon {
-    padding-left: 40px;
-}
+			&:disabled {
+				cursor: var(--cursor-not-allowed);
+				opacity: var(--opacity-50);
+				background-color: var(--bgn-disable);
+				border-color: var(--border-color-disable);
+				color: var(--color-disable);
+			}
+		}
 
-.dropdown-trigger:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-    background-color: var(--bgn-disable);
-}
+		& .atl-select__icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			color: inherit;
+		}
 
-.dropdown-icon {
-    position: absolute;
-    left: 12px;
-    color: var(--color-base);
-    width: 16px;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+		& .atl-select__text {
+			flex: 1;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 
-.dropdown-icon :global(svg) {
-    width: 16px;
-    height: 16px;
-    color: inherit;
-    fill: currentColor;
-}
+			&.atl-select__text--placeholder {
+				color: var(--color-subtle);
+			}
+		}
 
-.dropdown-text {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+		& .atl-select__arrow {
+			margin-inline-start: auto;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			color: inherit;
+			transition: transform 0.2s ease;
 
-.dropdown-text.is-placeholder {
-    color: var(--color-subtle);
-}
+			&.atl-select__arrow--open {
+				transform: rotate(180deg);
+			}
+		}
 
-.dropdown-arrow {
-    margin-left: auto;
-    color: var(--color-base);
-    transition: transform 0.2s;
-}
+		& .atl-select__menu {
+			position: absolute;
+			inset-block-start: 100%;
+			inset-inline: 0;
+			z-index: 1000;
+			margin-block-start: var(--spacing-4);
+			margin-block-end: 0;
+			margin-inline: 0;
+			padding-block: var(--spacing-4);
+			padding-inline: 0;
+			list-style: none;
+			background-color: var(--bgn-surface);
+			border: var(--border-width-04) solid var(--border-color-subtle);
+			border-radius: var(--border-radius-4);
+			box-shadow: var(--shadow-md);
+			max-height: var(--dimension-208);
+			overflow-y: auto;
+		}
 
-.dropdown-arrow.rotated {
-    transform: rotate(180deg);
-}
+		& .atl-select__item {
+			padding: var(--spacing-8) var(--spacing-12);
+			font-family: var(--font-family-sans-serif);
+			font-size: var(--font-size-16);
+			font-weight: var(--font-weight-regular);
+			line-height: var(--line-height-label);
+			color: var(--color-base);
+			cursor: var(--cursor-pointer);
+			transition: background-color 0.2s ease;
 
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    margin: 4px 0 0 0;
-    padding: 4px 0;
-    list-style: none;
-    
-    background-color: var(--bgn-base);
-    border: 1px solid var(--color-base);
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    
-    max-height: 200px;
-    overflow-y: auto;
-}
+			&:hover,
+			&:focus,
+			&.atl-select__item--active {
+				outline: none;
+				background-color: var(--bgn-accent);
+				color: var(--color-inverse);
+			}
 
-.dropdown-item {
-    padding: 8px 12px;
-    font-size: 14px;
-    color: var(--color-base);
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
+			&.atl-select__item--selected {
+				background-color: var(--bgn-accent);
+				color: var(--color-inverse);
+			}
+		}
 
-.dropdown-item:hover {
-    background-color: var(--color-accent) !important;
-    color: var(--color-inverse) !important;
-}
+		& .atl-select__menu:has(.atl-select__item:hover)
+			.atl-select__item--selected:not(:hover) {
+			background-color: transparent;
+			color: var(--color-base);
+		}
+	}
 
-.dropdown-item {
-  color: var(--color-base);
-}
+	@media (max-width: 768px) {
+		.atl-select {
+			& .atl-select__trigger {
+				width: 100%;
+				min-height: var(--dimension-44);
+			}
 
-.dropdown-item.selected {
-  background-color: var(--color-accent);
-  color: var(--color-inverse);
-}
-
-/* When any item is on hover */
-.dropdown-menu:has(.dropdown-item:hover) .dropdown-item {
-  color: var(--color-base); 
-  background-color: var(--bgn-base);
-}
-
-/* The hovered item has highlight */
-.dropdown-menu .dropdown-item:hover {
-  background-color: var(--color-accent);
-  color: var(--color-inverse);
-}
-
-.dropdown-item:focus {
-    outline: none;
-    background-color: var(--color-accent);
-    color: var(--color-inverse);
-}
-
-@media (max-width: 768px) {
-    .dropdown-trigger {
-        width: 100%;
-        height: 44px;
-        font-size: 16px;
-    }
-    
-    .dropdown-menu {
-        max-height: 40vh;
-    }
-}
+			& .atl-select__menu {
+				max-height: 40vh;
+			}
+		}
+	}
 </style>

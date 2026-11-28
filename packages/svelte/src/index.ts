@@ -1,13 +1,15 @@
 // Export all Svelte components
-export { default as AtlAccordion } from "./lib/AtlAccordion.svelte";
+export { AtlAccordion, AtlAccordionItem } from "./lib/Accordion/index.js";
 export { default as AtlAlert } from "./lib/AtlAlert.svelte";
 export { default as AtlButton } from "./lib/AtlButton.svelte";
 export { default as AtlButtonGroup } from "./lib/AtlButtonGroup.svelte";
 export { default as AtlCheckbox } from "./lib/AtlCheckbox.svelte";
 export { default as AtlContainer } from "./lib/AtlContainer.svelte";
 export { default as AtlField } from "./lib/AtlField.svelte";
+export { default as AtlIcon } from "./lib/AtlIcon.svelte";
 export { default as AtlLabel } from "./lib/AtlLabel.svelte";
 export { default as AtlLink } from "./lib/AtlLink.svelte";
+export { default as AtlLocaleProvider } from "./lib/AtlLocaleProvider.svelte";
 export { default as AtlMenu } from "./lib/AtlMenu.svelte";
 export { default as AtlRadio } from "./lib/AtlRadio.svelte";
 export { default as AtlSelect } from "./lib/AtlSelect.svelte";

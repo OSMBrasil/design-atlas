@@ -12,6 +12,10 @@
       "svelte": "./dist/index.js",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./Accordion": {
+      "svelte": "./dist/Accordion/index.js",
+      "import": "./dist/Accordion/index.js"
     }
   },
   "files": [
@@ -29,6 +33,9 @@
     "build": "node build.js",
     "clean": "rimraf dist",
     "prepack": "pnpm build"
+  },
+  "dependencies": {
+    "@design-atlas/ms-icons": "workspace:*"
   },
   "peerDependencies": {
     "svelte": "^4 || ^5"
