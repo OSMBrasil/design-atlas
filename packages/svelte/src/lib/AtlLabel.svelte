@@ -1,26 +1,34 @@
 <script>
+	import AtlIcon from './AtlIcon.svelte';
+	import { getAtlLocale } from './i18n/messages.js';
+
+	const atlLocale = getAtlLocale();
+
 	export let id = '';
 	export let label = 'Label';
 	export let icon = '';
 	export let optional = false;
+	export let optionalLabel = '';
 	export let visuallyHidden = false;
 	export let isLegend = false;
 	export let disabled = false;
 	export let required = false;
 	export let description = '';
+
+	$: resolvedOptionalLabel = optionalLabel || atlLocale.messages.label.optional;
 </script>
 
 {#if isLegend}
 	<legend class="atl-label {disabled ? 'disabled' : ''} {visuallyHidden ? 'sr-only' : ''}">
 		{#if icon}
-			<span class="icon">{icon}</span>
+			<span class="icon"><AtlIcon {icon} size="1rem" /></span>
 		{/if}
 		{label}
 		{#if required}
 			<span aria-hidden="true" class="required">*</span>
 		{/if}
 		{#if optional}
-			<span class="optional">(opcional)</span>
+			<span class="optional">{resolvedOptionalLabel}</span>
 		{/if}
 
 		{#if description}
@@ -31,7 +39,7 @@
 	<div class="atl-label {disabled ? 'disabled' : ''}">
 		<label for={id} class:sr-only={visuallyHidden}>
 			{#if icon}
-				<span class="icon">{icon}</span>
+				<span class="icon"><AtlIcon {icon} size="1rem" /></span>
 			{/if}
 			{label}
 
@@ -40,7 +48,7 @@
 			{/if}
 
 			{#if optional}
-				<span class="optional">(opcional)</span>
+				<span class="optional">{resolvedOptionalLabel}</span>
 			{/if}
 		</label>
 

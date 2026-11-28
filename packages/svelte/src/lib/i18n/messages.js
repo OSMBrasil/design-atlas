@@ -28,6 +28,9 @@ export const defaultMessagesEn = Object.freeze({
 		close: 'Close',
 		toggleSheet: 'Toggle sheet',
 	},
+	label: {
+		optional: '(optional)',
+	},
 });
 
 /**
@@ -56,6 +59,9 @@ export const exampleMessagesPtBr = Object.freeze({
 		close: 'Fechar',
 		toggleSheet: 'Alternar painel',
 	},
+	label: {
+		optional: '(opcional)',
+	},
 });
 
 /**
@@ -69,6 +75,7 @@ export function mergeMessages(overrides = {}) {
 		tabs: { ...defaultMessagesEn.tabs, ...(overrides.tabs || {}) },
 		menu: { ...defaultMessagesEn.menu, ...(overrides.menu || {}) },
 		container: { ...defaultMessagesEn.container, ...(overrides.container || {}) },
+		label: { ...defaultMessagesEn.label, ...(overrides.label || {}) },
 	};
 }
 

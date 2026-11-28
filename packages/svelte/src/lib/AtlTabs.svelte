@@ -1,4 +1,6 @@
 <script lang="ts">
+    import type { IconDefinition } from '@design-atlas/ms-icons';
+    import AtlIcon from './AtlIcon.svelte';
     import { getAtlLocale } from './i18n/messages.js';
 
     const atlLocale = getAtlLocale();
@@ -6,7 +8,7 @@
     export interface TabItem {
         label: string;
         href: string;
-        icon?: string;
+        icon?: IconDefinition | string;
         disabled?: boolean;
         selected?: boolean;
         id?: string;
@@ -40,7 +42,7 @@
             on:click={() => handleTabClick(index)}
         >
             {#if item.icon}
-                <span class="icon" aria-hidden="true">{@html item.icon}</span>
+                <span class="icon" aria-hidden="true"><AtlIcon icon={item.icon} size="20px" /></span>
             {/if}
             {item.label}
         </a>

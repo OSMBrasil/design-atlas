@@ -1,11 +1,14 @@
 <script lang="ts">
+  import type { IconDefinition } from '@design-atlas/ms-icons';
+  import AtlIcon from './AtlIcon.svelte';
+
   export let href: string | undefined = undefined;
   export let external: boolean = false;
   export let asChild: boolean = false;
   export let className: string = "";
   
   export let variant: 'underline' | 'basic' = 'underline';
-  export let icon: string | null = null;
+  export let icon: IconDefinition | string | null = null;
   export let leftIcon: boolean = false;
 
   $: rel = external ? "noopener noreferrer" : undefined;
@@ -25,13 +28,13 @@
     class={`${baseClass} ${variantClass} ${className}`}
   >
     {#if icon && leftIcon}
-      <span class="atl-link__icon">{@html icon}</span>
+      <span class="atl-link__icon"><AtlIcon {icon} size="1em" /></span>
     {/if}
     
     <slot />
 
     {#if icon && !leftIcon}
-      <span class="atl-link__icon">{@html icon}</span>
+      <span class="atl-link__icon"><AtlIcon {icon} size="1em" /></span>
     {/if}
   </a>
 {/if}

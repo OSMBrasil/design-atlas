@@ -9,7 +9,8 @@
     "build": "storybook build -o storybook-static"
   },
   "dependencies": {
-    "@design-atlas/css": "workspace:*"
+    "@design-atlas/css": "workspace:*",
+    "@design-atlas/ms-icons": "workspace:*"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "10.6.9",

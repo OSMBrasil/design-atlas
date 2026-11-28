@@ -1,4 +1,6 @@
 <script>
+    import { keyboardArrowDown } from '@design-atlas/ms-icons';
+    import AtlIcon from "./AtlIcon.svelte";
     import AtlLabel from "./AtlLabel.svelte";
     import { getAtlLocale } from "./i18n/messages.js";
 
@@ -121,7 +123,7 @@ function handleClickOutside(event) {
         >
             {#if icon}
                 <span class="dropdown-icon">
-                    {@html icon}
+                    <AtlIcon {icon} size="16px" />
                 </span>
             {/if}
             
@@ -130,9 +132,7 @@ function handleClickOutside(event) {
             </span>
             
             <span class="dropdown-arrow" class:rotated={isOpen}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6,9 12,15 18,9"></polyline>
-                </svg>
+                <AtlIcon icon={keyboardArrowDown} size="16px" />
             </span>
         </button>
         

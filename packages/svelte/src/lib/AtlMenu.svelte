@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { chevronRight, type IconDefinition } from '@design-atlas/ms-icons';
+    import AtlIcon from "./AtlIcon.svelte";
     import AtlTooltip from "./AtlTooltip.svelte";
     import { getAtlLocale } from "./i18n/messages.js";
 
@@ -55,7 +57,7 @@
             class="item"
             >
             {#if item.icon}
-                <span class="icon" aria-hidden="true">{@html item.icon}</span>
+                <span class="icon" aria-hidden="true"><AtlIcon icon={item.icon} size="20px" /></span>
             {/if}
             {item.label}
             {#if item.tiptext}
@@ -78,7 +80,7 @@
 
             {#if item.chevron}
                 <span class="chevron-right" aria-hidden="true">
-                    {@html chevron}
+                    <AtlIcon icon={chevronRight} size="20px" />
                 </span>
             {/if}
 

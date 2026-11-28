@@ -30,6 +30,9 @@
     "clean": "rimraf dist",
     "prepack": "pnpm build"
   },
+  "dependencies": {
+    "@design-atlas/ms-icons": "workspace:*"
+  },
   "peerDependencies": {
     "svelte": "^4 || ^5"
   },

@@ -41,6 +41,9 @@ importers:
       '@design-atlas/css':
         specifier: workspace:*
         version: link:../../packages/css
+      '@design-atlas/ms-icons':
+        specifier: workspace:*
+        version: link:../../packages/ms-icons
     devDependencies:
       '@storybook/addon-a11y':
         specifier: 10.6.9
@@ -172,6 +175,10 @@ importers:
         version: 5.9.2
 
   packages/svelte:
+    dependencies:
+      '@design-atlas/ms-icons':
+        specifier: workspace:*
+        version: link:../ms-icons
     devDependencies:
       rimraf:
         specifier: ^5.0.0

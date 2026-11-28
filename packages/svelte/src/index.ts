@@ -6,6 +6,7 @@ export { default as AtlButtonGroup } from "./lib/AtlButtonGroup.svelte";
 export { default as AtlCheckbox } from "./lib/AtlCheckbox.svelte";
 export { default as AtlContainer } from "./lib/AtlContainer.svelte";
 export { default as AtlField } from "./lib/AtlField.svelte";
+export { default as AtlIcon } from "./lib/AtlIcon.svelte";
 export { default as AtlLabel } from "./lib/AtlLabel.svelte";
 export { default as AtlLink } from "./lib/AtlLink.svelte";
 export { default as AtlLocaleProvider } from "./lib/AtlLocaleProvider.svelte";
