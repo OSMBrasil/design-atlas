@@ -45,3 +45,6 @@ vite.config.ts.timestamp-*
 
 # Smoke test artifacts
 dist-tarballs/
+
+storybook-static
+debug-storybook.log

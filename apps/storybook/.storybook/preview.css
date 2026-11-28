@@ -1,0 +1,46 @@
+/* Mantém a página Docs do Storybook (themes.dark) e seus controles nativos em modo escuro. */
+:root {
+  color-scheme: dark;
+}
+
+/* Impede que seletores globais de tags do atl-style.css (ex.: label, label span)
+   alterem a tabela Controls da documentação do Storybook fora da story. */
+:where(.docblock-argstable) label,
+:where(.docblock-argstable) label span {
+  font-size: unset;
+  font-weight: unset;
+  line-height: unset;
+  color: unset;
+}
+
+/* Aba "Docs": tema e background controlados EXCLUSIVAMENTE pelo toggle da toolbar
+   (sem "light dark", para ignorar o tema do navegador) e restritos à caixa .docs-story. */
+html[data-atl-theme="light"] .docs-story {
+  color-scheme: light;
+  background-color: var(--bgn-surface);
+  color: var(--color-base);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+html[data-atl-theme="dark"] .docs-story {
+  color-scheme: dark;
+  background-color: var(--bgn-surface);
+  color: var(--color-base);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Aba "Story" (Canvas): o iframe contém exclusivamente a área do componente
+   (os painéis Controls/Accessibility ficam no frame externo do Storybook). */
+html[data-atl-view="story"][data-atl-theme="light"] body.sb-show-main {
+  color-scheme: light;
+  background-color: var(--bgn-surface);
+  color: var(--color-base);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+html[data-atl-view="story"][data-atl-theme="dark"] body.sb-show-main {
+  color-scheme: dark;
+  background-color: var(--bgn-surface);
+  color: var(--color-base);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}

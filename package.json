@@ -12,7 +12,7 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm -r build && changeset publish",
-    "docs:dev": "pnpm --filter @design-atlas/docs^... build && pnpm --filter @design-atlas/docs dev",
+    "docs:dev": "pnpm --filter \"@design-atlas/docs^...\" --filter \"@design-atlas/storybook^...\" build && pnpm --parallel --filter @design-atlas/docs --filter @design-atlas/storybook dev",
     "docs:build": "pnpm --filter @design-atlas/docs... build",
     "docs:preview": "pnpm --filter @design-atlas/docs^... build && pnpm --filter @design-atlas/docs preview",
     "docs:serve": "pnpm --filter @design-atlas/docs serve",
