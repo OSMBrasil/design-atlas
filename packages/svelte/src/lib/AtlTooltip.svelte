@@ -8,6 +8,7 @@
 	let isTouch: boolean = false;
 
 	export let text: string = '';
+	/** Physical placement direction (`left` and `right` are physical and do not flip in RTL). */
 	export let direction:
 		| 'top'
 		| 'top-start'

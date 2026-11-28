@@ -187,7 +187,7 @@ function handleClickOutside(event) {
     font-weight: 400;
     line-height: 20px;
     color: var(--color-base);
-    text-align: left;
+    text-align: start;
     
     cursor: pointer;
     
@@ -209,7 +209,7 @@ function handleClickOutside(event) {
 }
 
 .dropdown-trigger.has-icon {
-    padding-left: 40px;
+    padding-inline-start: 40px;
 }
 
 .dropdown-trigger:disabled {
@@ -220,7 +220,7 @@ function handleClickOutside(event) {
 
 .dropdown-icon {
     position: absolute;
-    left: 12px;
+    inset-inline-start: 12px;
     color: var(--color-base);
     width: 16px;
     height: 16px;
@@ -248,7 +248,7 @@ function handleClickOutside(event) {
 }
 
 .dropdown-arrow {
-    margin-left: auto;
+    margin-inline-start: auto;
     color: var(--color-base);
     transition: transform 0.2s;
 }
@@ -259,9 +259,8 @@ function handleClickOutside(event) {
 
 .dropdown-menu {
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    inset-block-start: 100%;
+    inset-inline: 0;
     z-index: 1000;
     margin: 4px 0 0 0;
     padding: 4px 0;

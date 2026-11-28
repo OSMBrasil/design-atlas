@@ -61,8 +61,8 @@
     
     .close {
         position: absolute;
-        right: -1%;
-        top: -3%;
+        inset-inline-end: -1%;
+        inset-block-start: -3%;
         cursor: pointer;
         background: transparent;
         border: none;
@@ -70,8 +70,8 @@
     
     .sheet {
         position: absolute;
-        top: -3px;
-        left: 42%;
+        inset-block-start: -3px;
+        inset-inline-start: 42%;
         cursor: pointer;
         background: transparent;
         border: none;

@@ -75,13 +75,13 @@
 
 	.required {
 		color: var(--red-500);
-		margin-left: 2px;
+		margin-inline-start: 2px;
 	}
 
 	.optional {
 		color: var(--color-subtle);
 		font-weight: var(--font-weight-regular);
-		margin-left: 4px;
+		margin-inline-start: 4px;
 	}
 
 	.description {

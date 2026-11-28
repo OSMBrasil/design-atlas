@@ -75,7 +75,7 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        text-align: left;
+        text-align: start;
         padding: var(--spacing-16);
         border: none;
         background: transparent;

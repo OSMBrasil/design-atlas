@@ -44,3 +44,14 @@ html[data-atl-view="story"][data-atl-theme="dark"] body.sb-show-main {
   color: var(--color-base);
   transition: background-color 0.15s ease, color 0.15s ease;
 }
+
+/* Scoped text direction (LTR/RTL) applied strictly to the component preview area */
+html[data-atl-dir="rtl"] .docs-story,
+html[data-atl-dir="rtl"] #storybook-root {
+  direction: rtl;
+}
+
+html[data-atl-dir="ltr"] .docs-story,
+html[data-atl-dir="ltr"] #storybook-root {
+  direction: ltr;
+}

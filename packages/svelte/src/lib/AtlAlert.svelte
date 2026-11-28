@@ -106,13 +106,15 @@
 		max-width: 488px;
 		gap: var(--spacing-4);
 		border-radius: var(--border-radius-4);
-		padding: var(--spacing-16) var(--spacing-16) var(--spacing-16) var(--spacing-8);
+		padding-block: var(--spacing-16);
+		padding-inline-start: var(--spacing-8);
+		padding-inline-end: var(--spacing-16);
 		border-width: var(--border-width-1);
 		border-style: solid;
 		box-sizing: border-box;
 
 		&.has-close {
-			padding-right: var(--spacing-32);
+			padding-inline-end: var(--spacing-32);
 		}
 
 		& .atl-alert-icon {
@@ -143,8 +145,8 @@
 
 		& .atl-alert-close {
 			position: absolute;
-			top: var(--spacing-4);
-			right: var(--spacing-4);
+			inset-block-start: var(--spacing-4);
+			inset-inline-end: var(--spacing-4);
 			width: var(--size-24, 24px);
 			height: var(--size-24, 24px);
 			display: inline-flex;

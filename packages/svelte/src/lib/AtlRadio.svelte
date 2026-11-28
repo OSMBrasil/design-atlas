@@ -116,7 +116,7 @@
 }
 
 .radio-group input:disabled:checked {
-    margin-left: 2px;
+    margin-inline-start: 2px;
 }
 
 .radio-option input:disabled:checked {

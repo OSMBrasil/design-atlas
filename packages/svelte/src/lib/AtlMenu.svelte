@@ -88,7 +88,8 @@
 
     .item {
         position: relative;
-        padding: 8px var(--spacing-24) 4px var(--spacing-8);   
+        padding-block: 8px 4px;
+        padding-inline: var(--spacing-8) var(--spacing-24);   
     }
 
     .item:focus {
@@ -120,7 +121,7 @@
     }
 
     .badge {
-        margin-left: 6px;
+        margin-inline-start: 6px;
         padding: 0px 2px;
         background-color: red;
         display: inline;
@@ -138,7 +139,7 @@
 
     .chevron-right {
         position: absolute;
-        right: 10% !important;
+        inset-inline-end: 10% !important;
         
     }
 

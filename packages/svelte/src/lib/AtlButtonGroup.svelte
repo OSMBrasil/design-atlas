@@ -23,14 +23,14 @@
     }
 
     .button-group :global(> *:first-child) {
-        border-top-left-radius: var(--border-radius-4) !important;
-        border-bottom-left-radius: var(--border-radius-4) !important;
-        margin-left: 0; 
+        border-start-start-radius: var(--border-radius-4) !important;
+        border-end-start-radius: var(--border-radius-4) !important;
+        margin-inline-start: 0; 
     }
 
     .button-group :global(> *:last-child) {
-        border-top-right-radius: var(--border-radius-4) !important;
-        border-bottom-right-radius: var(--border-radius-4) !important;
+        border-start-end-radius: var(--border-radius-4) !important;
+        border-end-end-radius: var(--border-radius-4) !important;
     }
 
     .button-group :global(> *:hover) {

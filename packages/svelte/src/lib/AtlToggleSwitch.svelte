@@ -86,8 +86,8 @@
         width: 16px;
         height: 16px;
         background: var(--color-base);
-        top: 1.2px;
-        right: 21px;
+        inset-block-start: 1.2px;
+        inset-inline-start: 2px;
         transition: transform 0.3s;
         border-radius: 100%;
     }
@@ -105,6 +105,10 @@
         background-color: var(--bgn-surface);
         transform: translateX(21px);
         transition: transform 0.3s;
+    }
+
+    :global([dir='rtl']) .toggle-container button[aria-checked='true']::before {
+        transform: translateX(-21px);
     }
 
     .sr-only {

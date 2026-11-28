@@ -48,7 +48,7 @@
 		{placeholder}
 		{disabled}
 		{readonly}
-		style="padding-left: {startIcon ? '36px' : '12px'}; padding-right: {endIcon || clearable
+		style="padding-inline-start: {startIcon ? '36px' : '12px'}; padding-inline-end: {endIcon || clearable
 			? '36px'
 			: '12px'};"
 	/>
@@ -84,8 +84,8 @@
 		background-color: transparent;
 		font-size: var(--font-size-16);
 		line-height: var(--line-height-label);
-		padding-left: 12px;
-		padding-right: 12px;
+		padding-inline-start: 12px;
+		padding-inline-end: 12px;
 
 		&:focus {
 			border-color: var(--border-color-focus);
@@ -126,18 +126,18 @@
 	}
 
 	.icon.left {
-		left: var(--spacing-8);
+		inset-inline-start: var(--spacing-8);
 	}
 
 	.icon.right {
-		right: var(--spacing-8);
+		inset-inline-end: var(--spacing-8);
 		pointer-events: auto;
 	}
 	.clear-button {
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
-		right: var(--spacing-12);
+		inset-inline-end: var(--spacing-12);
 		background: none;
 		border: none;
 		padding: 0;
@@ -155,7 +155,7 @@
 	}
 
 	.icon.right.end-icon {
-		right: var(--spacing-8);
+		inset-inline-end: var(--spacing-8);
 	}
 	:focus {
     outline: none;

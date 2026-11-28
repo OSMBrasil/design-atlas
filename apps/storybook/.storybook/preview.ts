@@ -5,47 +5,78 @@ import "@design-atlas/css/atl-style.css";
 import "./preview.css";
 
 type Theme = "light" | "dark";
+type Direction = "ltr" | "rtl";
 
-// Applies the Atlas theme only to the area where the component is rendered
-// (via data-atl-theme and data-atl-view attributes styled in preview.css),
-// ignoring the browser theme and without affecting the Storybook UI/Controls.
-const applyTheme = (theme: Theme, viewMode?: string) => {
+// Apply Atlas theme and text direction strictly to the component preview area
+// (via data-atl-theme, data-atl-view, and dir on .docs-story / #storybook-root),
+// keeping Storybook's own Docs & Controls UI unaffected.
+const applyPreviewState = (
+  theme?: Theme,
+  direction?: Direction,
+  viewMode?: string,
+) => {
   const root = document.documentElement;
-  root.dataset.atlTheme = theme;
+  if (theme) root.dataset.atlTheme = theme;
   if (viewMode) root.dataset.atlView = viewMode;
+  if (direction) {
+    root.dataset.atlDir = direction;
+    const storyRoot = document.getElementById("storybook-root");
+    if (storyRoot) storyRoot.setAttribute("dir", direction);
+    document
+      .querySelectorAll(".docs-story")
+      .forEach((el) => el.setAttribute("dir", direction));
+  }
 };
 
-// Ensures immediate updates on the Docs tab when toggling the toolbar switch.if (typeof document !== "undefined") {
-try {
-  const channel = addons.getChannel();
-  channel.on("globalsUpdated", ({ globals }: { globals?: { theme?: Theme } }) => {
-    if (globals?.theme) applyTheme(globals.theme);
-  });
-} catch {
-  // Channel not yet initialized outside the preview runtime.
+// Keep Docs view immediately synchronized when toolbar globals change.
+if (typeof document !== "undefined") {
+  try {
+    const channel = addons.getChannel();
+    channel.on(
+      "globalsUpdated",
+      ({ globals }: { globals?: { theme?: Theme; direction?: Direction } }) => {
+        applyPreviewState(globals?.theme, globals?.direction);
+      },
+    );
+  } catch {
+    // Channel not initialized outside preview runtime.
+  }
 }
 
 const preview: Preview = {
   tags: ["autodocs"],
   globalTypes: {
     theme: {
-      description: "Theme",
+      description: "Atlas Theme",
       toolbar: {
-        title: "Theme",
+        title: "Tema",
         icon: "circlehollow",
         items: [
-          { value: "light", icon: "sun", title: "Light" },
-          { value: "dark", icon: "moon", title: "Dark" },
+          { value: "light", icon: "sun", title: "Claro" },
+          { value: "dark", icon: "moon", title: "Escuro" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+    direction: {
+      description: "Text direction (LTR / RTL)",
+      toolbar: {
+        title: "Direction",
+        icon: "transfer",
+        items: [
+          { value: "ltr", title: "LTR" },
+          { value: "rtl", title: "RTL" },
         ],
         dynamicTitle: true,
       },
     },
   },
-  initialGlobals: { theme: "light" },
+  initialGlobals: { theme: "light", direction: "ltr" },
   decorators: [
     (story, context) => {
-      applyTheme(
+      applyPreviewState(
         (context.globals.theme as Theme) ?? "light",
+        (context.globals.direction as Direction) ?? "ltr",
         context.viewMode,
       );
       return story();
@@ -55,10 +86,9 @@ const preview: Preview = {
     docs: {
       theme: themes.dark,
     },
-    // The background automatically follows the Atlas theme toggle.
     backgrounds: { disabled: true },
     a11y: {
-      // 'todo' = informational: displays violations in the panel without failing anything.
+      // 'todo' = informative mode: shows violations in panel without failing.
       test: "todo",
     },
   },
