@@ -22,8 +22,18 @@ const manualDir = join(pkgRoot, 'svg', 'manual');
 const distDir = join(pkgRoot, 'dist');
 const distSvgDir = join(distDir, 'svg');
 
-function toCamelCase(name) {
-  return name.replace(/[-_]([a-z0-9])/gi, (_, ch) => ch.toUpperCase());
+const JS_RESERVED = new Set([
+  'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger', 'default',
+  'delete', 'do', 'else', 'enum', 'export', 'extends', 'false', 'finally', 'for',
+  'function', 'if', 'import', 'in', 'instanceof', 'interface', 'let', 'new', 'null',
+  'package', 'private', 'protected', 'public', 'return', 'static', 'super', 'switch',
+  'this', 'throw', 'true', 'try', 'typeof', 'var', 'void', 'while', 'with', 'yield',
+]);
+
+function toExportName(name) {
+  const camel = name.replace(/[-_]([a-z0-9])/gi, (_, ch) => ch.toUpperCase());
+  const safe = /^[0-9]/.test(camel) ? `icon${camel}` : camel;
+  return JS_RESERVED.has(safe) ? `${safe}Icon` : safe;
 }
 
 function parseNormalizedSvg(svgText) {
@@ -55,7 +65,7 @@ function main() {
       const { viewBox, body } = parseNormalizedSvg(normalized);
       entries.push({
         id,
-        exportName: toCamelCase(id),
+        exportName: toExportName(id),
         viewBox,
         body,
         rtlMirror: rtlMap.get(baseName) || false,
@@ -73,7 +83,7 @@ function main() {
       const { viewBox, body } = parseNormalizedSvg(normalized);
       entries.push({
         id,
-        exportName: toCamelCase(id),
+        exportName: toExportName(id),
         viewBox,
         body,
         rtlMirror: rtlMap.get(baseName) || false,
