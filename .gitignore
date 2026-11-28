@@ -50,3 +50,6 @@ storybook-static
 debug-storybook.log
 
 packages/ms-icons/preview.html
+
+!packages/ms-icons/dist/
+!packages/ms-icons/dist/**
